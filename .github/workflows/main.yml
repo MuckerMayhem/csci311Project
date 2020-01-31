@@ -9,6 +9,5 @@ jobs:
       - name: Obtain Repo
         uses: actions/checkout@master
       - name: Upload files
-        run: |
-            rsync -ru * csci311e@csci.viu.ca:~/public_html/
+        run: rsync -ru * csci311e@csci.viu.ca:~/public_html/
         working-directory: /home/pi/actions-runner/project/csci311Project/csci311Project
