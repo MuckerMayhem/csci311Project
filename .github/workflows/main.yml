@@ -11,6 +11,6 @@ jobs:
       with:
           local: .
           remote: ~/public_html/
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          host: csci.viu.ca
+          username: csci311e
+          password: krabbypatty
