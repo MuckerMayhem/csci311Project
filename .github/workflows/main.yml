@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: Obtain Repo
         uses: actions/checkout@master
+      - name: Build
+        run: sh deploy.sh
+      - name: Switch to gh-pages
+        uses: actions/checkout@gh-pages
       - name: Upload files
         run: rsync -ru * csci311e@csci.viu.ca:~/public_html/
         working-directory: /home/pi/actions-runner/project/csci311Project/csci311Project
