@@ -1,19 +1,13 @@
 import Vue from 'vue'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App.vue'
-import axios from "axios";
+import router from './router'
 
-Vue.config.productionTip = false;
+
+Vue.config.productionTip = false
+
 new Vue({
-  render: h => h(App),
-  el: '#app',
-  data () {
-    return {
-      info: null
-    }
-  },
-  mounted () {
-    axios
-        .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-        .then(response => (this.info = response))
-  }
-}).$mount('app');
+  router,
+  render: h => h(App)
+}).$mount('#app')

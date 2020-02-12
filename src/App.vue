@@ -1,29 +1,48 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App" info="App.info"/>
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light static-top shadow navbarHeight">
+      <div class="container">
+        <router-link to="/login" class="nav-link">
+          <a class="navbar-brand text-dark" :href="href">CSCI311 Team Project</a>
+        </router-link>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <router-link to="/login" class="nav-link">
+                <a :class="nav-link" :active="active" :href="href">Home</a>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/about" class="nav-link">
+                <a :class="nav-link" :active="active" :href="href">About</a>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/register" class="nav-link">
+                <a :class="nav-link" :active="active" :href="href">Register</a>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <router-view/>
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto-Mono', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.navbarHeight {
+  height: 5rem;
 }
 </style>
