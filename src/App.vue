@@ -33,14 +33,27 @@
   </div>
 </template>
 
+<script>
+  export default {
+    data() {
+      return {
+        href: null,
+        active: null,
+        link: null,
+        nav: null
+      }
+    }
+  }
+</script>
+
 
 <style>
-#app {
-  font-family: 'Roboto-Mono', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
+  #app {
+    font-family: 'Roboto-Mono', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+  }
 
 .navbarHeight {
   height: 5rem;
