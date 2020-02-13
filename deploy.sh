@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+#add github to known hosts
+ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+
 # abort on errors
 set -e
 
