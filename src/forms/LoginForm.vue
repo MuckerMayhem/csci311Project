@@ -1,30 +1,25 @@
 <template>
   <div class="form-group">
     <form @submit.prevent="submit">
-      
       <div class="form-label-group">
-        <input type="email" id="inputEmail" class="form-control" 
-          placeholder="Email address" v-model="form.email" 
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" 
+          placeholder="Email address" v-model="form.email" tabindex="1"
           required autofocus/>
       </div>
 
       <div class="form-label-group" :class="{'hasError': $v.form.password.$error }">
-        <input type="password" id="inputPassword" class="form-control" 
-          placeholder="Password" v-model="form.password" required/>
+        <label for="password">Password</label>
+        <input type="password" id="password" class="form-control" 
+          placeholder="Password" v-model="form.password" tabindex="2" required/>
         <!-- Errors to be displayed if error returned from password form -->
         <div class="text-sm mt-2 text-danger text-sm" v-if="$v.form.password.$error">
           <div v-if="!$v.maxLength">Password must not be longer than 40 characters.</div>
         </div>
       </div>
 
-      <div class="custom-control custom-checkbox mb-3">
-        <input type="checkbox" class="custom-control-input" id="customCheck1"/>
-        <label class="custom-control-label" for="customCheck1">Remember password</label>
-      </div>
       <button class="btn btn-lg btn-dark btn-block btn-login text-uppercase font-weight-bold mb-2" 
-        type="submit" @click.stop.prevent="submit()">Sign In</button>
-      <div class="text-center">
-        <a class="small" href="#">Forgot password?</a></div>
+        type="submit" tabindex="4" @click.stop.prevent="submit()">Sign In</button>
     </form>
   </div>
 </template>
@@ -36,13 +31,14 @@ export default {
     data() {
         return {
             form: {
+                email: "",
                 password: ""
             }
         };
     },
     validations: {
         form: {
-            password: {max: maxLength(40) }
+            password: { max: maxLength(40) }
         }
     },
 
@@ -51,6 +47,8 @@ export default {
           this.$v.form.$touch();
           if (!this.$v.form.$error) {
             // do server-side call here...
+            // ... if server agrees that data is valid...
+            this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
             this.$router.push("/");
           }
         }
@@ -60,6 +58,10 @@ export default {
 </script>
 
 <style scoped>
+label {
+  visibility: hidden;
+}
+
 .login-heading {
   font-weight: 300;
 }
