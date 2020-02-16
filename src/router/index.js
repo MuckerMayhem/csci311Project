@@ -7,14 +7,16 @@ import Login from '@/views/Login.vue'
 import About from '@/views/About.vue'
 import Register from '@/views/Register.vue'
 import Home from '@/views/Home.vue'
+import ScoutObjects from '@/views/ScoutObjects.vue'
+import CloseApproaching from '@/views/CloseApproaching.vue'
 
 
 Vue.use(VueRouter)
 Vue.use(Vuelidate)
 Vue.use(VueCookies)
 
+// configure cookies to be set for one day
 Vue.$cookies.config('1d')
-
 
 const ifNotAuthenticated = (to, from, next) => {
   if (!Vue.$cookies.isKey("session_id")) {
@@ -88,6 +90,7 @@ const routes = [
       ]
     },
     component: Register,
+    beforeEnter: ifNotAuthenticated
   },
   {
     path: '/',
@@ -107,8 +110,45 @@ const routes = [
     },
     component: Home,
     beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/scout',
+    name: 'ScoutObjects',
+    meta: {
+      title: 'Scout Objects - NASAnalysis',
+      metaTags: [
+        {
+          name: 'description',
+          content: 'The page to access data related to objects that have been scouted by NASA\'s observation team, but have not yet been confirmed.'
+        },
+        {
+          name: 'og:description',
+          content: 'The page to access data related to objects that have been scouted by NASA\'s observation team, but have not yet been confirmed.'
+        }
+      ]
+    },
+    component: ScoutObjects,
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/close-approaching',
+    name: 'CloseApproaching',
+    meta: {
+      title: 'Close Approaching Objects - NASAnalysis',
+      metaTags: [
+        {
+          name: 'description',
+          content: 'The page to access data  acquired by NASA related to objects approaching earth in the past, present and future.'
+        },
+        {
+          name: 'og:description',
+          content: 'The page to access data  acquired by NASA related to objects approaching earth in the past, present and future.'
+        }
+      ]
+    },
+    component: CloseApproaching,
+    beforeEnter: ifAuthenticated
   }
-
 ]
 
 const router = new VueRouter({
@@ -118,16 +158,11 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   if ((from === "/login" || "/register") && (Vue.$cookies.isKey("session_id"))) next('/')
-//   else if ((from === "") Vue.$cookies.isKey("session_id")) next("/")
-// });
-
 // Below Router Function obtained from article found at the following link:
 // https://alligator.io/vuejs/vue-router-modify-head/
 
 // This callback runs before every route change, including on page load.
-router.beforeEach((to, from, next) => {
+router.afterEach((to) => {
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
   const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
@@ -142,7 +177,7 @@ router.beforeEach((to, from, next) => {
   Array.from(document.querySelectorAll('[data-vue-router-controlled]')).map(el => el.parentNode.removeChild(el));
 
   // Skip rendering meta tags if there are none.
-  if(!nearestWithMeta) return next();
+  if(!nearestWithMeta) return;
 
   // Turn the meta tag definitions into actual elements in the head.
   nearestWithMeta.meta.metaTags.map(tagDef => {
@@ -157,8 +192,6 @@ router.beforeEach((to, from, next) => {
 
     return tag;
   }).forEach(tag => document.head.appendChild(tag));
-
-  next();
 });
 
 export default router

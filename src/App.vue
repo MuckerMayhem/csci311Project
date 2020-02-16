@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow navbarHeight">
       <div class="container">
-        <router-link to="/login" class="nav-link navbar-brand text-dark">
+        <router-link to="/login" alt="Login" class="nav-link navbar-brand text-dark">
           NASAnalysis
         </router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" 
@@ -20,19 +20,37 @@
             </template>
             <template v-if="authenticated === false">
               <li class="nav-item px-2">
-                <router-link to="/about" class="nav-link">About</router-link>
+                <router-link to="/about" alt="About" class="nav-link">About</router-link>
               </li>
               <li class="nav-item px-2">
-                <router-link to="/login" class="nav-link">Login</router-link>
+                <router-link to="/login" alt="Login" class="nav-link">Login</router-link>
               </li>
               <li class="nav-item px-2">
-                <router-link to="/register" class="nav-link">Register</router-link>
+                <router-link to="/register" alt="Register" class="nav-link">Register</router-link>
               </li>
             </template>
           </ul>
         </div>
       </div>
     </nav>
+    <!-- Side navigation menu to be rendered when a user is logged on -->
+    <template v-if="authenticated === true">
+      <div class="sidenav">
+        <router-link alt="Home" to="/" 
+            class="sidenav-link py-2 text-light font-weight-bold home-nav-link">
+          Home
+        </router-link>
+        <hr>
+        <router-link alt="Scouted Objects" to="/scout" 
+            class="sidenav-link py-2 text-light font-weight-bold">
+          Scouted Objects
+        </router-link>
+        <router-link alt="Close Approaching Objects" to="/close-approaching" 
+            class="sidenav-link py-2 text-light font-weight-bold">
+          Confirmed Objects
+        </router-link>
+      </div>
+    </template>
     <router-view/>
   </div>
 </template>
@@ -47,7 +65,7 @@
     },
     watch: {
       $route () {
-        this.authenticated = this.$cookies.isKey("session_id")
+        this.authenticated = this.$cookies.isKey("session_id");
       }
     },
     methods: {
@@ -61,6 +79,12 @@
 </script>
 
 <style>
+hr {
+  background-color: aliceblue;
+  border: none;
+  height: 1px;
+}
+
 #app {
   font-family: 'Roboto-Mono', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -68,13 +92,29 @@
   text-align: center;
 }
 
-.hasError {
-  border-color: red;
-}
-
 .navbarHeight {
   height: 5rem;
 }
 
+.home-nav-link {
+  font-size: 1.5rem;
+}
+
+.sidenav {
+  height: 100vh;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: #373a47;
+  overflow-x: hidden;
+  padding-top: 5rem;
+}
+
+.sidenav-link {
+  display: block;
+
+}
 
 </style>

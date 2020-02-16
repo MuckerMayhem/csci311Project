@@ -31,7 +31,7 @@
 
         <button class="btn btn-lg btn-dark btn-block btn-login text-uppercase font-weight-bold mb-2" 
           type="submit" tabindex="5" @click.stop.prevent="submit()">Register</button>
-        <router-link to="/login" class="d-block text-center mt-2">Sign In</router-link>
+        <router-link to="/login" alt="Login" class="d-block text-center mt-2">Sign In</router-link>
       </form>
   </div>
 </template>
