@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light static-top shadow navbarHeight">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow navbarHeight">
       <div class="container">
         <router-link to="/login" alt="Login" class="nav-link navbar-brand text-dark">
           NASAnalysis
         </router-link>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" 
-          data-target="#navbarResponsive" aria-controls="navbarResponsive" 
-          aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-target="#navbarResponsive"
+                data-toggle="collapse" type="button">
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <template v-if="authenticated === true">
@@ -35,17 +36,17 @@
     <!-- Side navigation menu to be rendered when a user is logged on -->
     <template v-if="authenticated === true">
       <div class="sidenav">
-        <router-link alt="Home" to="/" 
-            class="sidenav-link py-2 text-light font-weight-bold home-nav-link">
+        <router-link alt="Home" class="sidenav-link py-2 text-light font-weight-bold home-nav-link"
+                     to="/">
           Home
         </router-link>
         <hr>
-        <router-link alt="Scouted Objects" to="/scout" 
-            class="sidenav-link py-2 text-light font-weight-bold">
+        <router-link alt="Scouted Objects" class="sidenav-link py-2 text-light font-weight-bold"
+                     to="/scout">
           Scouted Objects
         </router-link>
-        <router-link alt="Close Approaching Objects" to="/close-approaching" 
-            class="sidenav-link py-2 text-light font-weight-bold">
+        <router-link alt="Close Approaching Objects" class="sidenav-link py-2 text-light font-weight-bold"
+                     to="/close-approaching">
           Confirmed Objects
         </router-link>
       </div>
@@ -55,13 +56,11 @@
 </template>
 
 <script>
+
   export default {
     data() {
       return {
-        href: null,
-        active: null,
-        link: null,
-        nav: null
+        authenticated: false
       }
     },
     watch: {
@@ -75,47 +74,47 @@
         this.$router.push("/login");
       }
     }
+
   }
 </script>
 
-
 <style>
-hr {
-  background-color: aliceblue;
-  border: none;
-  height: 1px;
-}
+  hr {
+    background-color: aliceblue;
+    border: none;
+    height: 1px;
+  }
 
-#app {
-  font-family: 'Roboto-Mono', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
+  #app {
+    font-family: 'Roboto-Mono', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+  }
 
-.navbarHeight {
-  height: 5rem;
-}
+  .navbarHeight {
+    height: 5rem;
+  }
 
-.home-nav-link {
-  font-size: 1.5rem;
-}
+  .home-nav-link {
+    font-size: 1.5rem;
+  }
 
-.sidenav {
-  height: 100vh;
-  width: 200px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  background-color: #373a47;
-  overflow-x: hidden;
-  padding-top: 5rem;
-}
+  .sidenav {
+    height: 100vh;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background-color: #373a47;
+    overflow-x: hidden;
+    padding-top: 5rem;
+  }
 
-.sidenav-link {
-  display: block;
+  .sidenav-link {
+    display: block;
 
-}
+  }
 
 </style>
