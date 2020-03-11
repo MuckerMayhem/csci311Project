@@ -1,6 +1,6 @@
 <template>
     <div class="scout">
-        <ul class="container m-auto">
+        <div class="container m-auto">
             <h2 class="py-4">CNEOS Scout System Data</h2>
             <!-- For more information on the Scout System see the following: https://cneos.jpl.nasa.gov/scout/intro.html -->
             <p class="w-75 mx-auto description-text">
@@ -11,42 +11,41 @@
                 These objects could be real asteroids, but they cannot be officially designated until they are
                 confirmed by additional observations.
             </p>
-            <!--Accordion wrapper-->
-            <!--            <li v-for="(item, index) in info.data" :key="item.objectName">-->
-            <!--                <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">-->
+            <div class="accordion" id="accordionExample">
+                <div v-for="item in info.data" :key="item.objectName">
+                    <div class="card">
+                        <div class="card-header" :id="'heading' + info.objectName">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        :data-target="'#' + item.objectName"
+                                        aria-expanded="false" :aria-controls="item.objectName">
+                                    {{ item.objectName }}
+                                </button>
+                            </h2>
+                        </div>
 
-            <!--                    &lt;!&ndash; Accordion card &ndash;&gt;-->
-            <!--                    <div class="card">-->
-
-            <!--                        &lt;!&ndash; Card header &ndash;&gt;-->
-            <!--                        <div class="card-header" role="tab" id="headingOne1">-->
-            <!--                            <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1"-->
-            <!--                               aria-expanded="true"-->
-            <!--                               v-bind:aria-controls="collapseOne + index">-->
-            <!--                                <h5 class="mb-0">-->
-            <!--                                    {{ item.objectName }} <i class="fas fa-angle-down rotate-icon"></i>-->
-            <!--                                </h5>-->
-            <!--                            </a>-->
-            <!--                        </div>-->
-
-            <!--                        &lt;!&ndash; Card body &ndash;&gt;-->
-            <!--                        <div v-bind:id="collapseOne + index" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"-->
-            <!--                             data-parent="#accordionEx">-->
-            <!--                            <div class="card-body">-->
-            <!--                                {{ item.objectName }}-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-
-            <!--                    </div>-->
-            <!--                    &lt;!&ndash; Accordion card &ndash;&gt;-->
-            <!--                </div>-->
-            <!--                &lt;!&ndash; Accordion wrapper &ndash;&gt;-->
-            <!--            </li>-->
-            <VueFaqAccordion
-                    :items="formatted_data"
-            />
+                        <div :id="item.objectName" class="collapse show" :aria-labelledby="'heading' + info.objectName"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">Name:</div>
+                                        <div class="col">{{item.objectName}}</div>
+                                        <div class="w-100"></div>
+                                        <div class="col">Tisserand Score:</div>
+                                        <div class="col">{{item.tisserandScore}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--            <VueFaqAccordion-->
+            <!--                    :items="formatted_data"-->
+            <!--            />-->
             <h4>Stay Tuned!</h4>
-        </ul>
+        </div>
 
     </div>
 </template>
@@ -54,13 +53,13 @@
 
 <script>
     import axios from 'axios';
-    import VueFaqAccordion from 'vue-faq-accordion'
+    //    import VueFaqAccordion from 'vue-faq-accordion'
 
     export default {
         name: 'ScoutObjects',
-        components: {
-            VueFaqAccordion
-        },
+        // components: {
+        //     VueFaqAccordion
+        // },
         data() {
             return {
                 info: null,
