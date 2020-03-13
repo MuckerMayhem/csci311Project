@@ -1,9 +1,17 @@
 <?php
 include "config.php";
 
-$data = json_decode(file_get_contents("php://input"));
 
-$request = $data->request;
+if (isset($_POST['request'])) {
+//    echo "<strong>Post received.</strong> <br/> <br/> <strong>Name:</strong> " . $_POST['request'];
+    $request = $_POST['request'];
+} else {
+    echo "Post not received.";
+}
+
+//$data = json_decode(file_get_contents("php://input"));
+//
+//$request = $data->request;
 
 // Fetch All records
 if ($request == 1) {
@@ -47,7 +55,7 @@ if ($request == 3) {
     exit;
 }
 
-// Delete record
+// Get API stuff for Scouts API.
 if ($request == 4) {
     $curl = curl_init();
 

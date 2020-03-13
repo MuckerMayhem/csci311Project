@@ -71,13 +71,13 @@
         mounted() {
             axios.get("https://ssd-api.jpl.nasa.gov/scout.api").then(response => (
                 this.info = response.data,
-                    this.fillData()
+                this.fillData()
             ));
-            axios.post('/static/axios.php', {
+            axios.post('~csci311e/php/axios.php', {
                 request: 4
             })
                 .then(function (response) {
-                    this.test = response.data;
+                    this.stuff = response;
                 })
                 .catch(function (error) {
                     console.log(error);
