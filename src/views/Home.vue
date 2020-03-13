@@ -6,18 +6,18 @@
       <h4 class="py-3">{{ title }}</h4>
       <p class="picOfDayDescription mx-auto small">{{ description }}</p>
     </div>
-    
+
   </div>
 </template>
 
 <script>
   import axios from 'axios';
-  import { NASA_PICTURE_OF_DAY_QUERY } from "../../instance/config.js"
+  import {NASA_PICTURE_OF_DAY_QUERY} from "../../instance/config.js"
 
   export default {
     name: 'Home',
 
-    data () {
+    data() {
       return {
         image: null,
         title: null,
@@ -27,29 +27,29 @@
 
     mounted() {
       axios.get(NASA_PICTURE_OF_DAY_QUERY).then(response => (
-        this.image = response.data.url,
-        this.title = response.data.title,
-        this.description = response.data.explanation
+              this.image = response.data.url,
+                      this.title = response.data.title,
+                      this.description = response.data.explanation
       ))
     }
   }
 </script>
 
 <style scoped>
-.home {
-  min-height: 100vh;
-  margin-left: 200px;
-  padding-top: 5rem;
-}
+  .home {
+    min-height: 100vh;
+    margin-left: 200px;
+    padding-top: 5rem;
+  }
 
-.picOfTheDay {
-  max-height: 50vh;
-}
+  .picOfTheDay {
+    max-height: 50vh;
+  }
 
-.picOfDayDescription {
-  margin: auto;
-  width: 75%;
-  line-height: 1.25;
-  text-align: justify;
-}
+  .picOfDayDescription {
+    margin: auto;
+    width: 75%;
+    line-height: 1.25;
+    text-align: justify;
+  }
 </style>

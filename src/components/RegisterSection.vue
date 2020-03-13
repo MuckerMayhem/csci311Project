@@ -7,8 +7,24 @@
           <div class="container">
             <div class="row">
               <div class="col-md-9 col-lg-8 mx-auto">
-                <h3 class="register-heading my-5 text-center">Register</h3>
-                <registration-form/>
+                <h5 class="card-title text-center">Register</h5>
+                <form class="form-signin">
+                  <div class="form-label-group">
+                    <input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
+                  </div>
+                  <div class="form-label-group">
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+                  </div>
+                  <hr>
+                  <div class="form-label-group">
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                  </div>
+                  <div class="form-label-group">
+                    <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Verify Password" required>
+                  </div>
+                  <button class="btn btn-lg btn-dark btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign in</button>
+                  <a class="d-block text-center mt-2 small" href="#">Sign In</a>
+                </form>
               </div>
             </div>
           </div>
@@ -19,13 +35,8 @@
 </template>
 
 <script>
-import RegistrationForm from '../forms/RegistrationForm.vue';
-
 export default {
-  name: 'RegisterSection',
-  components: {
-    'registration-form' : RegistrationForm
-  }
+  name: 'LoginSection'
 }
 </script>
 
@@ -33,10 +44,6 @@ export default {
 
 .register, .image {
   min-height: 100vh;
-}
-
-.register-heading {
-  font-weight: 300;
 }
 
 .bg-image {
@@ -48,6 +55,41 @@ export default {
 
 .login-heading {
   font-weight: 300;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+  border-radius: 2rem;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group > input,
+.form-label-group > label {
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-label-group > label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  cursor: text;
+  /* Match the input under the label */
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
 }
 
 </style>

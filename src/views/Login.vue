@@ -5,14 +5,14 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import LoginSection from '@/components/LoginSection.vue'
+  // @ is an alias to /src
+  import LoginSection from '@/components/LoginSection.vue'
 
 
-export default {
-  name: 'Login',
-  components: {
-    LoginSection
+  export default {
+    name: 'Login',
+    components: {
+      LoginSection
+    }
   }
-}
 </script>
