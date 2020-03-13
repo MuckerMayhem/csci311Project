@@ -18,18 +18,20 @@ Vue.use(VueCookies);
 // configure cookies to be set for one day
 Vue.$cookies.config('1d');
 
-const ifNotAuthenticated = (to, from, next) => {
-    if (!Vue.$cookies.isKey("session_id")) {
-        next();
-        return
+// Check if user is already authenticated on routes that do not
+//  require authentication.
+const ifAlreadyAuthenticated = (to, from, next) => {
+    if (Vue.$cookies.isKey("session_id")) {
+        next('/');
+        return;
     }
-    next('/')
-};
+    next();
+}
 
 const ifAuthenticated = (to, from, next) => {
     if (Vue.$cookies.isKey("session_id")) {
         next();
-        return
+        return;
     }
     next('/login')
 };
@@ -52,7 +54,7 @@ const routes = [
             ]
         },
         component: Login,
-        beforeEnter: ifNotAuthenticated
+        beforeEnter: ifAlreadyAuthenticated
     },
     {
         path: '/about',
@@ -71,7 +73,7 @@ const routes = [
             ]
         },
         component: About,
-        beforeEnter: ifNotAuthenticated
+        beforeEnter: ifAlreadyAuthenticated
     },
     {
         path: '/register',
@@ -90,7 +92,7 @@ const routes = [
             ]
         },
         component: Register,
-        beforeEnter: ifNotAuthenticated
+        beforeEnter: ifAlreadyAuthenticated
     },
     {
         path: '/',
@@ -148,7 +150,7 @@ const routes = [
         },
         component: CloseApproaching,
         beforeEnter: ifAuthenticated
-    }
+    },
 ];
 
 const router = new VueRouter({
@@ -158,13 +160,15 @@ const router = new VueRouter({
     routes
 });
 
+// Quick implementation of a redirect rule
+router.replace({ path: '/login', redirect: '/*' });
+
 // Below Router Function obtained from article found at the following link:
 // https://alligator.io/vuejs/vue-router-modify-head/
 
 // This callback runs before every route change, including on page load.
 router.afterEach((to) => {
     // This goes through the matched routes from last to first, finding the closest route with a title.
-    // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.
     const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
 
     // Find the nearest route element with meta tags.
