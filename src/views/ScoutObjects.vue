@@ -10,6 +10,7 @@
                 (NEOCP). Objects on these pages are unconfirmed; their designations are user-assigned and unofficial.
                 These objects could be real asteroids, but they cannot be officially designated until they are
                 confirmed by additional observations.
+                {{this.stuff}}
             </p>
             <div class="accordion" id="accordionExample">
                 <div v-for="item in info.data" :key="item.objectName">
@@ -64,13 +65,23 @@
             return {
                 info: null,
                 formatted_data: [],
+                stuff: null
             }
         },
         mounted() {
             axios.get("https://ssd-api.jpl.nasa.gov/scout.api").then(response => (
                 this.info = response.data,
                     this.fillData()
-            ))
+            ));
+            axios.post('/static/axios.php', {
+                request: 4
+            })
+                .then(function (response) {
+                    this.test = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         methods: {
             fillData() {
