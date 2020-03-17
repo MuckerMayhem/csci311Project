@@ -42,9 +42,6 @@
                     </div>
                 </div>
             </div>
-            <!--            <VueFaqAccordion-->
-            <!--                    :items="formatted_data"-->
-            <!--            />-->
             <h4>Stay Tuned!</h4>
         </div>
 

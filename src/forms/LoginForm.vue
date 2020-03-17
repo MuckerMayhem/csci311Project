@@ -28,6 +28,7 @@
 
 <script>
     import {maxLength} from "vuelidate/lib/validators";
+    import axios from 'axios';
 
     export default {
         data() {
@@ -48,8 +49,16 @@
             submit() {
                 this.$v.form.$touch();
                 if (!this.$v.form.$error) {
-                    // do server-side call here...
-                    // ... if server agrees that data is valid...
+                    axios.post('~csci311e/php/axios.php', {
+                        request: 4,
+                        email: this.email,
+                    })
+                        .then(function (response) {
+                            this.stuff = response;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                     this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
                     this.$router.push("/");
                 }

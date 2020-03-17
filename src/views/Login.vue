@@ -13,6 +13,11 @@
     name: 'Login',
     components: {
       LoginSection
-    }
+    },
+    data() {
+      return {
+        users: null
+      }
+    },
   }
 </script>
