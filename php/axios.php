@@ -38,36 +38,13 @@ function pull_api_data()
     $err = curl_error($curl);
 }
 
-
-// Fetch All records
-if ($request == 1) {
-    $userData = mysqli_query($con, "select * from users order by id desc");
-
-    $response = array();
-    while ($row = mysqli_fetch_assoc($userData)) {
-        $response[] = $row;
-    }
-
-    echo json_encode($response);
-    exit;
-}
-
 // Add record
-if ($request == 2) {
+if ($request == 1) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $email = $_POST['email'];
 
-    $hash = hash('sha256', $password);
-
-    function createSalt()
-    {
-        $text = md5(uniqid(rand(), TRUE));
-        return substr($text, 0, 3);
-    }
-
-    $salt = createSalt();
-    $password = hash('sha256', $salt . $hash);
+    $password = password_hash($password, PASSWORD_BCRYPT);
 
     $userData = $con->prepare("SELECT * FROM users WHERE username=? OR email=?");
     $userData->bind_param("ss", $username, $email);
@@ -84,49 +61,10 @@ if ($request == 2) {
     }
     $userData->close();
     exit;
-
-    /* LOGIN THING TO IMPLEMENT
-    //Create query
-$qry="SELECT * FROM member WHERE username='$username' AND password='$password'";
-$result=mysql_query($qry);
-
-//Check whether the query was successful or not
-if($result) {
-    if(mysql_num_rows($result) > 0) {
-        //Login Successful
-        session_regenerate_id();
-        $member = mysql_fetch_assoc($result);
-        $_SESSION['SESS_MEMBER_ID'] = $member['id'];
-        $_SESSION['SESS_FIRST_NAME'] = $member['username'];
-        $_SESSION['SESS_LAST_NAME'] = $member['password'];
-        session_write_close();
-        header("location: profile.php");
-        exit();
-    }
-    else {
-        //Login failed
-        //error message
-    }
-else {
-    die("Query failed");
-}
-    */
-}
-
-// Update record
-if ($request == 3) {
-    $id = $data->id;
-    $name = $data->name;
-    $email = $data->email;
-
-    mysqli_query($con, "UPDATE users SET name='" . $name . "',email='" . $email . "' WHERE id=" . $id);
-
-    echo "Update successfully";
-    exit;
 }
 
 // Get API stuff for Scouts API.
-if ($request == 4) {
+if ($request == 2) {
     global $response;
 
     if (!$response == "") {
@@ -137,19 +75,25 @@ if ($request == 4) {
     exit;
 }
 
-// Fetch All records
-if ($request == 5) {
-    if (isset($_POST['email'])) {
-        $email = $_POST['email'];
-        $userData = mysqli_query($con, "select password from users where email=$email");
+// Login function, pulls specified user from DB and checks stored password with input.
+if ($request == 3) {
+    $password = $_POST['password'];
+    $email = $_POST['email'];
 
-        $response = array();
-        while ($row = mysqli_fetch_assoc($userData)) {
-            $response[] = $row;
+    $userData = $con->prepare("SELECT * FROM users WHERE username=? OR email=?");
+    $userData->bind_param("ss", $username, $email);
+    $userData->execute();
+    $result = $userData->get_result();
+    if ($result->num_rows == 1) {
+        $member = $result->fetch_array();
+        $real_pass = $member['password'];
+
+        if (password_verify($password, $real_pass)) {
+            echo "success";
+        } else {
+            echo "no match";
         }
-
-        echo json_encode($response);
     }
-    exit;
+    exit();
 }
 ?>
