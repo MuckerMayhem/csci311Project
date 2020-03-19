@@ -1,55 +1,83 @@
 <template>
     <div class="form-group">
         <form @submit.prevent="submit">
-            <div class="form-label-group">
-                <label for="email">Email</label>
-                <input autofocus class="form-control" id="email"
-                       placeholder="Email address" required tabindex="1"
-                       type="email" v-model="form.email"/>
+
+            <!-- Username form and validation -->
+            <div class="form-group">
+                <label class="text-nasa-dark" for="username">Username</label>
+                <input autofocus class="form-control form__input" v-bind:class="{'is-invalid': $v.username.$error }" id="username" placeholder="Username" tabindex="1" 
+                    v-model.trim.lazy="$v.username.$model"/>
+            </div>
+            <div class="small text-danger text-left mb-2" v-if="!$v.username.maxLength">
+                Username must not contain more than {{$v.username.$params.maxLength.max}} characters.
+            </div>
+            <div class="small text-danger text-left mb-2" v-if="!$v.username.minLength">
+                Username must have at least {{$v.username.$params.minLength.min}} characters.
             </div>
 
-            <div :class="{'hasError': $v.form.password.$error }" class="form-label-group">
-                <label for="password">Password</label>
-                <input class="form-control" id="password" placeholder="Password"
-                       required tabindex="2" type="password" v-model="form.password"/>
-                <!-- Errors to be displayed if error returned from password form -->
-                <div class="text-sm mt-2 text-danger text-sm" v-if="$v.form.password.$error">
-                    <div v-if="!$v.maxLength">Password must not be longer than 40 characters.</div>
+            <!-- Password form and validation -->
+            <div class="form-group">
+                <label class="text-nasa-dark" for="password">Password</label>
+                <input class="form-control form__input" placeholder="Password" id="password" v-bind:class="{'is-invalid': $v.password.$error }" tabindex="2" type="password" 
+                    v-model.trim.lazy="$v.password.$model"/>
+                <div class="small text-danger text-left" v-if="!$v.password.maxLength">
+                    Password must not contain more than {{$v.password.$params.maxLength.max}} characters.
+                </div>
+                <div class="small text-danger text-left" v-if="!$v.password.minLength">
+                    Password must be at least  more than {{$v.password.$params.minLength.min}} characters.
                 </div>
             </div>
 
-            <button @click.stop.prevent="submit()"
-                    class="btn btn-lg btn-dark btn-block btn-login text-uppercase font-weight-bold mb-2" tabindex="4"
-                    type="submit">Sign In
-            </button>
+            <div class="form-group text-center">
+                <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
+                    tabindex="4" type="submit" :disabled="$v.$invalid">Sign In
+                </button>
+            </div>
         </form>
     </div>
 </template>
 
 <script>
-    import {maxLength} from "vuelidate/lib/validators";
+    import { minLength, maxLength, required } from "vuelidate/lib/validators";
+    import axios from 'axios';
 
     export default {
         data() {
             return {
-                form: {
-                    email: "",
-                    password: ""
-                }
-            };
+                username: "",
+                password: "",
+                submitStatus: null
+            }
         },
         validations: {
-            form: {
-                password: {max: maxLength(40)}
+            username: {
+                required,
+                minLength: minLength(5),
+                maxLength: maxLength(40)
+            },
+
+            password: {
+                required,
+                minLength: minLength(5),
+                maxLength: maxLength(40)
             }
         },
 
         methods: {
             submit() {
-                this.$v.form.$touch();
-                if (!this.$v.form.$error) {
-                    // do server-side call here...
-                    // ... if server agrees that data is valid...
+                this.$v.$touch();
+                if (!this.$v.$error) {
+                    axios.post('~csci311e/server/login.php', {
+                        username: this.username,
+                        password: this.password
+                    })
+                    .then(function (response) {
+                        this.stuff = response;
+                        console.log(response.headers);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
                     this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
                     this.$router.push("/");
                 }
@@ -58,48 +86,3 @@
 
     }
 </script>
-
-<style scoped>
-    label {
-        visibility: hidden;
-    }
-
-    .login-heading {
-        font-weight: 300;
-    }
-
-    .btn-login {
-        font-size: 0.9rem;
-        letter-spacing: 0.05rem;
-        padding: 0.75rem 1rem;
-        border-radius: 2rem;
-    }
-
-    .form-label-group {
-        position: relative;
-        margin-bottom: 1rem;
-    }
-
-    .form-label-group > input,
-    .form-label-group > label {
-        height: auto;
-        border-radius: 2rem;
-    }
-
-    .form-label-group > label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        width: 100%;
-        margin-bottom: 0;
-        /* Override default `<label>` margin */
-        line-height: 1.5;
-        color: #495057;
-        cursor: text;
-        /* Match the input under the label */
-        border: 1px solid transparent;
-        border-radius: .25rem;
-        transition: all .1s ease-in-out;
-    }
-</style>

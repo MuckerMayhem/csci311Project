@@ -1,7 +1,7 @@
 <template>
   <div class="close-approaching">
     <div class="container m-auto">
-      <h2 class="py-4">Confirmed Earth Approaching Objects</h2>
+      <h2 class="py-4 text-center">Confirmed Earth Approaching Objects</h2>
       <!-- For more information rearding NASA's Small Body Databse see the following: https://ssd.jpl.nasa.gov/sbdb.cgi -->
       <p class="w-75 mx-auto description-text">
         This page is still under construction, though once complete, will include an interface

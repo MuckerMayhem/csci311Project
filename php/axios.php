@@ -1,6 +1,8 @@
 <?php
 include "config.php";
 
+$response = "";
+
 
 if (isset($_POST['request'])) {
 //    echo "<strong>Post received.</strong> <br/> <br/> <strong>Name:</strong> " . $_POST['request'];
@@ -9,54 +11,15 @@ if (isset($_POST['request'])) {
     echo "Post not received.";
 }
 
-//$data = json_decode(file_get_contents("php://input"));
-//
-//$request = $data->request;
-
-// Fetch All records
-if ($request == 1) {
-    $userData = mysqli_query($con, "select * from users order by id desc");
-
-    $response = array();
-    while ($row = mysqli_fetch_assoc($userData)) {
-        $response[] = $row;
-    }
-
-    echo json_encode($response);
+if (isset($_POST['get_api_data'])) {
+    pull_api_data();
     exit;
 }
 
-// Add record
-if ($request == 2) {
-    $username = $data->username;
-    $name = $data->name;
-    $email = $data->email;
 
-    $userData = mysqli_query($con, "SELECT * FROM users WHERE username='" . $username . "'");
-    if (mysqli_num_rows($userData) == 0) {
-        mysqli_query($con, "INSERT INTO users(username,name,email) VALUES('" . $username . "','" . $name . "','" . $email . "')");
-        echo "Insert successfully";
-    } else {
-        echo "Username already exists.";
-    }
-
-    exit;
-}
-
-// Update record
-if ($request == 3) {
-    $id = $data->id;
-    $name = $data->name;
-    $email = $data->email;
-
-    mysqli_query($con, "UPDATE users SET name='" . $name . "',email='" . $email . "' WHERE id=" . $id);
-
-    echo "Update successfully";
-    exit;
-}
-
-// Get API stuff for Scouts API.
-if ($request == 4) {
+function pull_api_data()
+{
+    global $response;
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -71,11 +34,66 @@ if ($request == 4) {
     ));
 
     $response = curl_exec($curl);
-    $err = curl_error($curl);
-
     echo $response;
+    $err = curl_error($curl);
+}
 
-    curl_close($curl);
+// Add record
+if ($request == 1) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+
+    $password = password_hash($password, PASSWORD_BCRYPT);
+
+    $userData = $con->prepare("SELECT * FROM users WHERE username=? OR email=?");
+    $userData->bind_param("ss", $username, $email);
+    $userData->execute();
+    $result = $userData->get_result();
+    if ($result->num_rows == 0) {
+        $insert = $con->prepare("INSERT INTO users(username,password,email) VALUES(?,?,?)");
+        $insert->bind_param("sss", $username, $password, $email);
+        $insert->execute();
+        $insert->close();
+        echo "Insert successfully";
+    } else {
+        echo "Username/Email already exists.";
+    }
+    $userData->close();
     exit;
+}
+
+// Get API stuff for Scouts API.
+if ($request == 2) {
+    global $response;
+
+    if (!$response == "") {
+        echo $response;
+    } else {
+        echo "No response available.";
+    }
+    exit;
+}
+
+// Login function, pulls specified user from DB and checks stored password with input.
+if ($request == 3) {
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+
+    $userData = $con->prepare("SELECT * FROM users WHERE username=? OR email=?");
+    $userData->bind_param("ss", $username, $email);
+    $userData->execute();
+    $result = $userData->get_result();
+    if ($result->num_rows == 1) {
+        $member = $result->fetch_array();
+        $real_pass = $member['password'];
+
+        if (password_verify($password, $real_pass)) {
+            echo "success";
+        } else {
+            echo "no match";
+        }
+    }
+    exit();
 }
 ?>
