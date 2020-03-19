@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <h2 class="py-4">Picture of the Day</h2>
+    <h2 class="py-4 text-center">Picture of the Day</h2>
     <div class="container">
       <img class="picOfTheDay" v-bind:src="image" v-bind:alt="title"/>
-      <h4 class="py-3">{{ title }}</h4>
+      <h4 class="py-3 text-center">{{ title }}</h4>
       <p class="picOfDayDescription mx-auto small">{{ description }}</p>
     </div>
 

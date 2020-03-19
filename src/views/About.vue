@@ -1,80 +1,30 @@
 <template>
-    <div class="about">
-        <h2>Learn more about the objects near earth.</h2>
-        <h4>
-            This project is designed to serve as a user friendly wrapper for
-        </h4>
-        <div style="width: 100%">
-            <table style="width: 100%;">
-                <tr>
-                    <td>
-                        <bar-chart :chart-data="datacollection"/>
-                    </td>
-                    <td>
-                        <line-chart :chart-data="datacollection" :styles="myStyles"/>
-                    </td>
-                </tr>
-            </table>
-        </div>
+    <div class="about container text-center">
+        <h2>Get Engaged with NASA Data</h2>
+        <h6 class="my-4 mx-auto text-left w-75">
+            This project provides a user friendly interface for accessing two of NASA's many API's.
+            <br/><br/>
+            The information available to users through our application includes data on both speculative 
+            and confirmed objects closely approaching Earth. This includes information like object size, velocity, distance
+            from Earth, and what date the object has or will closely approach Earth.
+            <br/><br/>
+            The application is designed to explore ways to improve data accessibility by leveraging the latest and greatest
+            tools in modern web development, and is developed as part of meeting project requirements for the Introduction to Web
+            Development course in the Spring 2020 semester at Vancouver Island University.
+        </h6>
     </div>
 </template>
+
+<script>
+    export default {
+        name: 'About'
+    }
+</script>
 
 <style scoped>
     .about {
         min-height: 100vh;
         margin: auto;
-    }
-
-    td {
-        padding: 50px;
+        padding-top: 7.5rem;
     }
 </style>
-<script>
-    import BarChart from '../charts/BarGraph.js'
-    import LineChart from '../charts/LineGraph'
-
-    export default {
-        components: {
-            BarChart,
-            LineChart
-        },
-        data() {
-            return {
-                height: 10,
-                datacollection: null
-            }
-        },
-        mounted() {
-            this.fillData()
-        },
-        methods: {
-            fillData() {
-                this.datacollection = {
-                    labels: [this.getRandomInt(), this.getRandomInt()],
-                    datasets: [
-                        {
-                            label: 'Data One',
-                            backgroundColor: '#187FFF',
-                            data: [this.getRandomInt(), this.getRandomInt()]
-                        }, {
-                            label: 'Data One',
-                            backgroundColor: '#f87979',
-                            data: [this.getRandomInt(), this.getRandomInt()]
-                        }
-                    ]
-                }
-            },
-            getRandomInt() {
-                return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-            }
-        },
-        computed: {
-            myStyles() {
-                return {
-                    height: '${this.height}px',
-                    position: 'relative'
-                }
-            }
-        }
-    }
-</script>

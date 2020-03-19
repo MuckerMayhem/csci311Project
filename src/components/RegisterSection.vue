@@ -7,10 +7,10 @@
           <div class="container">
             <div class="row">
               <div class="col-md-9 col-lg-8 mx-auto">
-                <h5 class="card-title text-center">Register</h5>
+                <h3 class="card-title text-nasa-dark text-center">Register</h3>
                 <form class="form-signin">
                   <div class="form-label-group">
-                    <input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
+                    <input type="text" id="inputUserame" class="form-control" placeholder="Username">
                   </div>
                   <div class="form-label-group">
                     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
@@ -35,9 +35,10 @@
 </template>
 
 <script>
-export default {
-  name: 'LoginSection'
-}
+
+  export default {
+    name: 'LoginSection'
+  }
 </script>
 
 <style scoped>
