@@ -3,6 +3,8 @@
 // Created by: Sarah Carruthers, March 2020
 // Modified by: Ezra MacDonald, March 2020
 
+    header('Access-Control-Allow-Methods: POST');
+
     require_once("lib/auth.php");
     require_once("lib/validators.php");
 
@@ -18,10 +20,13 @@
     // Attempt to log in user
     $err = array("message" => "");
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $json = file_get_contents('php://input');
+        $data = json_decode($json['data']);
+        $username = $data['username'];
+        $password = $data['password'];
 
         if (isset($password) && isset($username)) {
+            // trim white space and set max length
             if (!has_format_matching($password, '/[A-Za-z0-9_]/')) {
                 $err["message"] = "Password must only contain letters, numbers and underscores.";
                 http_response_code(401);

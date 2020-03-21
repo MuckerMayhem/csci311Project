@@ -67,13 +67,13 @@
             submit() {
                 this.$v.$touch();
                 if (!this.$v.$error) {
-                    axios.post('~csci311e/server/login.php', {
+                    axios.post('server/login.php', {
                         username: this.username,
                         password: this.password
                     })
                     .then(function (response) {
-                        this.stuff = response;
                         console.log(response.headers);
+                        console.log(response.data);
                     })
                     .catch(function (error) {
                         console.log(error);

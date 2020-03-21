@@ -59,9 +59,9 @@
     </template>
     <router-view/>
 
-    <footer class="m-auto main-footer">
-      <p> Copyright &copy;2020 Vancouver Island University | Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
-    </footer>
+    <!-- <footer class="m-auto main-footer">
+      <p> Copyright &copy;2020 Vancouver Island University <template v-if="authenticated=true"> | Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></template></p>
+    </footer> -->
   </div>
 </template>
 
