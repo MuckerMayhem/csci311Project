@@ -109,7 +109,7 @@
             submit() {
                 this.$v.$touch();
                 if (!this.$v.$error) {
-                    axios.post('server/axios.php', {
+                    axios.post('/~csci311e/server/axios.php', {
                         email: this.email,
                         username: this.username,
                         password: this.password

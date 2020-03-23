@@ -67,7 +67,7 @@
             submit() {
                 this.$v.$touch();
                 if (!this.$v.$error) {
-                    axios.post('server/login.php', {
+                    axios.post('/~csci311e/server/login.php', {
                         username: this.username,
                         password: this.password
                     })
