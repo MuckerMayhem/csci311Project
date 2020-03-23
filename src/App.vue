@@ -37,18 +37,18 @@
     <template v-if="authenticated === true">
       <div class="sidenav">
         <!-- <router-link alt="Home" class="sidenav-link py-2 text-light font-weight-bold home-nav-link" to="/"> -->
-         <h3 class="text-light text-center font-weight-lighter pt-3">Data Tables</h3>
+         <h3 class="text-dark text-center font-weight-lighter pt-3">Data Tables</h3>
         <!-- </router-link> -->
         <hr/>
         <!-- <div class="d-inline"> -->
-          <router-link alt="Scouted Objects" class="sidenav-link py-3 text-light font-weight-bold" to="/scout">
+          <router-link alt="Scouted Objects" class="sidenav-link py-3 text-dark" to="/scout">
             <img class="sidenav-icon mx-3" src="./assets/comet-1.png"/>
             Scouted NEOs
           </router-link>
         <!-- </div> -->
 
         <!-- <div class="d-inline"> -->
-          <router-link alt="Close Approaching Objects" class="sidenav-link py-3 text-light font-weight-bold" to="/close-approaching">
+          <router-link alt="Close Approaching Objects" class="sidenav-link py-3 text-dark" to="/close-approaching">
             <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
             Confirmed NEOs
           </router-link>
@@ -125,7 +125,7 @@
     z-index: 999;
     overflow-x: hidden;
     padding-top: 5rem;
-    background-color: #52619C;
+    background-color: #d8dee4;
   }
 
   .sidenav-link {

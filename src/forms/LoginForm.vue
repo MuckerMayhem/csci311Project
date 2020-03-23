@@ -46,7 +46,7 @@
             return {
                 username: "",
                 password: "",
-                submitStatus: null
+                errors: null
             }
         },
         validations: {
@@ -67,19 +67,20 @@
             submit() {
                 this.$v.$touch();
                 if (!this.$v.$error) {
-                    axios.post('server/login.php', {
+                    axios.post('/server/login.php', {
                         username: this.username,
                         password: this.password
                     })
                     .then(function (response) {
                         console.log(response.headers);
                         console.log(response.data);
+                        this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
+                        this.$router.push("/");  
                     })
-                    .catch(function (error) {
-                        console.log(error);
+                    .catch(function (errors) {
+                        this.errors = errors;
                     });
-                    this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
-                    this.$router.push("/");
+
                 }
             }
         }
