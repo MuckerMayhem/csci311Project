@@ -151,6 +151,9 @@ const routes = [
         component: CloseApproaching,
         beforeEnter: ifAuthenticated
     },
+    {
+        path: '*'
+    }
 ];
 
 const router = new VueRouter({
@@ -160,8 +163,14 @@ const router = new VueRouter({
     routes
 });
 
+// router.beforeEach((to, from) => {
+//     if (to.name === from.name) {
+//         next(to.path);
+//     }
+// })
+
 // Quick implementation of a redirect rule
-router.replace({ path: '/login', redirect: '/*' });
+// router.replace({ path: '*', redirect: '' }).catch({ });
 
 // Below Router Function obtained from article found at the following link:
 // https://alligator.io/vuejs/vue-router-modify-head/

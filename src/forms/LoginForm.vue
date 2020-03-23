@@ -29,6 +29,9 @@
             </div>
 
             <div class="form-group text-center">
+                <div class="small text-danger text-left ml-3" v-if="this.errors['message']">
+                    {{ this.errors['message'] }}
+                </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
                     tabindex="4" type="submit" :disabled="$v.$invalid">Sign In
                 </button>
@@ -73,14 +76,14 @@
                     })
                     .then(function (response) {
                         console.log(response.headers);
-                        console.log(response.data);
-                        this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
-                        this.$router.push("/");  
+                        console.log(response.data); 
                     })
                     .catch(function (errors) {
                         this.errors = errors;
+                        console.log(errors);
                     });
-
+                    this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
+                    this.$router.push("/"); 
                 }
             }
         }
