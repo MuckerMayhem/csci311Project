@@ -20,21 +20,21 @@ Vue.$cookies.config('1d');
 
 // Check if user is already authenticated on routes that do not
 //  require authentication.
-// const ifAlreadyAuthenticated = (to, from, next) => {
-//     if (Vue.$cookies.isKey("session_id")) {
-//         next('/');
-//         return;
-//     }
-//     next();
-// }
+const ifAuthenticated = (to, from, next) => {
+    if (Vue.$cookies.isKey("logged_in")) {
+        next('/');
+        return;
+    }
+    next();
+}
 
-// const ifAuthenticated = (to, from, next) => {
-//     if (Vue.$cookies.isKey("session_id")) {
-//         next();
-//         return;
-//     }
-//     next('/login')
-// };
+const ifNotAuthenticated = (to, from, next) => {
+    if (Vue.$cookies.isKey("logged_in")) {
+        next();
+        return;
+    }
+    next('/login')
+};
 
 const routes = [
     {
@@ -45,16 +45,16 @@ const routes = [
             metaTags: [
                 {
                     name: 'description',
-                    content: 'The page to log in to NASAnalysis to access your account.'
+                    content: 'Log in to NASAnalysis to access your account.'
                 },
                 {
                     name: 'og:description',
-                    content: 'The page to log in to NASAnalysis to access your account.'
+                    content: 'Log in to NASAnalysis to access your account.'
                 }
             ]
         },
         component: Login,
-        // beforeEnter: ifAlreadyAuthenticated
+        beforeEnter: ifAuthenticated
     },
     {
         path: '/about',
@@ -64,16 +64,16 @@ const routes = [
             metaTags: [
                 {
                     name: 'description',
-                    content: 'The page to learn more about the purpose of NASAnalysis and its history.'
+                    content: 'Learn more about the purpose of NASAnalysis and its history.'
                 },
                 {
                     name: 'og:description',
-                    content: 'The page to learn more about the purpose of NASAnalysis and its history.'
+                    content: 'Learn more about the purpose of NASAnalysis and its history.'
                 }
             ]
         },
         component: About,
-        // beforeEnter: ifAlreadyAuthenticated
+        beforeEnter: ifAuthenticated
     },
     {
         path: '/register',
@@ -83,16 +83,16 @@ const routes = [
             metaTags: [
                 {
                     name: 'description',
-                    content: 'The page to register for NASAnalysis'
+                    content: 'Register for an account with NASAnalysis'
                 },
                 {
                     name: 'og:description',
-                    content: 'The page to register for NASAnalysis'
+                    content: 'Register for an account with NASAnalysis'
                 }
             ]
         },
         component: Register,
-        // beforeEnter: ifAlreadyAuthenticated
+        beforeEnter: ifAuthenticated
     },
     {
         path: '/',
@@ -102,16 +102,16 @@ const routes = [
             metaTags: [
                 {
                     name: 'description',
-                    content: 'The page to access the information presented by NASAnalysis and learn more about NASA\'s datasets!'
+                    content: 'Access the information presented by NASAnalysis and learn more about NASA\'s datasets!'
                 },
                 {
                     name: 'og:description',
-                    content: 'The page to access the information presented by NASAnalysis and learn more about NASA\'s datasets!'
+                    content: 'Access the information presented by NASAnalysis and learn more about NASA\'s datasets!'
                 }
             ]
         },
         component: Home,
-        // beforeEnter: ifAuthenticated
+        beforeEnter: ifNotAuthenticated
     },
     {
         path: '/scout',
@@ -121,16 +121,16 @@ const routes = [
             metaTags: [
                 {
                     name: 'description',
-                    content: 'The page to access data related to objects that have been scouted by NASA\'s observation team, but have not yet been confirmed.'
+                    content: 'Access data related to objects that have been scouted by NASA\'s observation team, but have not yet been confirmed.'
                 },
                 {
                     name: 'og:description',
-                    content: 'The page to access data related to objects that have been scouted by NASA\'s observation team, but have not yet been confirmed.'
+                    content: 'Access data related to objects that have been scouted by NASA\'s observation team, but have not yet been confirmed.'
                 }
             ]
         },
         component: ScoutObjects,
-        // beforeEnter: ifAuthenticated
+        beforeEnter: ifNotAuthenticated
     },
     {
         path: '/close-approaching',
@@ -140,16 +140,16 @@ const routes = [
             metaTags: [
                 {
                     name: 'description',
-                    content: 'The page to access data  acquired by NASA related to objects approaching earth in the past, present and future.'
+                    content: 'Access data acquired by NASA related to objects approaching earth in the past, present and future.'
                 },
                 {
                     name: 'og:description',
-                    content: 'The page to access data  acquired by NASA related to objects approaching earth in the past, present and future.'
+                    content: 'Access data acquired by NASA related to objects approaching earth in the past, present and future.'
                 }
             ]
         },
         component: CloseApproaching,
-        // beforeEnter: ifAuthenticated
+        beforeEnter: ifNotAuthenticated
     },
     {
         path: '*'

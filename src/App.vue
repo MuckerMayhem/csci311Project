@@ -64,22 +64,24 @@
   export default {
     data() {
       return {
-        authenticated: false
+        authenticated: this.$cookies.isKey("logged_in")
       }
     },
     watch: {
-      $route () {
-        this.authenticated = this.$cookies.isKey("session_id");
+      $route (to) {
+        if (to === "/" && !this.authenticated) {
+          this.$router.push("/login");
+        }
+        this.authenticated = this.$cookies.isKey("logged_in");
       }
     },
     methods: {
       logout() {
         axios.post('/~csci311e/server/login.php');
-        this.$cookies.remove("session_id");
-        // this.$router.push("/login");
+        this.$cookies.remove("logged_in");
+        this.$router.push("/login");
       }
     }
-
   }
 </script>
 

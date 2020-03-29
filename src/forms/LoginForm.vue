@@ -29,9 +29,9 @@
             </div>
 
             <div class="form-group text-center">
-                <!-- <div class="small text-danger text-left ml-3" v-if="this.errors['message']">
-                    {{ this.errors['message'] }}
-                </div> -->
+                <div class="small text-danger text-left ml-3" v-if="this.errors.hasOwnProperty('message')">
+                    {{ this.errors.message }}
+                </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
                     tabindex="4" type="submit" :disabled="$v.$invalid">Sign In
                 </button>
@@ -49,7 +49,7 @@
             return {
                 username: "",
                 password: "",
-                errors: null
+                errors: {}
             }
         },
         validations: {
@@ -74,14 +74,15 @@
                         username: this.username,
                         password: this.password
                     })
-                    .then(function (response) {
-                        console.log(response.headers);
-                        console.log(response.data);
-                        // this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
+                    .then(function () {
+                        this.$router.push("/");
+                        this.$cookies.set("logged_in", "True");
                     })
-                    .catch(function (errors) {
-                        // this.errors = errors;
-                        console.log(errors);
+                    .catch(function (error) {
+                        if (error.response.data) {
+                            console.log(error.response.data);
+                            Object.assign(this.errors, error.response.data);
+                        }
                     });
                 }
             }

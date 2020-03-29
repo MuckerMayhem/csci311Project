@@ -5,7 +5,7 @@
             <div class="form-group row" :class="{ 'form-group--error': $v.username.$error }">
                 <label class="text-nasa-dark col-sm-3 col-form-label" for="username">Username: </label>
                 <div class="col-sm-9">
-                    <input autofocus class="form-control form__input" v-bind:class="{'is-invalid': $v.username.$error }"
+                    <input class="form-control form__input" v-bind:class="{'is-invalid': $v.username.$error }"
                         id="username" placeholder="Username" tabindex="1" type="text" v-model.trim.lazy="$v.username.$model"/>
                 </div>
                 <div class="small text-danger text-left ml-3" v-if="!$v.username.maxLength">
@@ -83,7 +83,7 @@
                 email: "",
                 password: "",
                 verify_password: "",
-                errors: null
+                errors: {}
             }
         },
 
@@ -117,14 +117,15 @@
                         username: this.username,
                         password: this.password
                     })
-                    .then(function (response) {
-                        console.log(response.headers);
-                        console.log(response.data);
-                        this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
+                    .then(function () {
+                        this.$router.push("/");
+                        this.$cookies.set("logged_in", "True");
                     })
-                    .catch(function (errors) {
-                        this.errors = errors.toJSON();
-                        console.log(errors);
+                    .catch(function (error) {
+                        if (error.response.data) {
+                            console.log(error.response.data);
+                            Object.assign(this.errors, error.response.data);
+                        }
                     });
                 }
             }

@@ -28,8 +28,8 @@
     mounted() {
       axios.get(NASA_PICTURE_OF_DAY_QUERY).then(response => (
               this.image = response.data.url,
-                      this.title = response.data.title,
-                      this.description = response.data.explanation
+              this.title = response.data.title,
+              this.description = response.data.explanation
       ))
     }
   }
