@@ -48,8 +48,6 @@
             <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
             Confirmed NEOs
           </router-link>
-
-        
       </div>
     </template>
     <router-view/>
@@ -75,8 +73,11 @@
     },
     methods: {
       logout() {
-        this.$cookies.remove("session_id");
-        this.$router.push("/login");
+        import axios from 'axios';
+
+        axios.post('/~csci311e/server/login.php');
+        // this.$cookies.remove("session_id");
+        // this.$router.push("/login");
       }
     }
 

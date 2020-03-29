@@ -20,21 +20,21 @@ Vue.$cookies.config('1d');
 
 // Check if user is already authenticated on routes that do not
 //  require authentication.
-const ifAlreadyAuthenticated = (to, from, next) => {
-    if (Vue.$cookies.isKey("session_id")) {
-        next('/');
-        return;
-    }
-    next();
-}
+// const ifAlreadyAuthenticated = (to, from, next) => {
+//     if (Vue.$cookies.isKey("session_id")) {
+//         next('/');
+//         return;
+//     }
+//     next();
+// }
 
-const ifAuthenticated = (to, from, next) => {
-    if (Vue.$cookies.isKey("session_id")) {
-        next();
-        return;
-    }
-    next('/login')
-};
+// const ifAuthenticated = (to, from, next) => {
+//     if (Vue.$cookies.isKey("session_id")) {
+//         next();
+//         return;
+//     }
+//     next('/login')
+// };
 
 const routes = [
     {
@@ -54,7 +54,7 @@ const routes = [
             ]
         },
         component: Login,
-        beforeEnter: ifAlreadyAuthenticated
+        // beforeEnter: ifAlreadyAuthenticated
     },
     {
         path: '/about',
@@ -73,7 +73,7 @@ const routes = [
             ]
         },
         component: About,
-        beforeEnter: ifAlreadyAuthenticated
+        // beforeEnter: ifAlreadyAuthenticated
     },
     {
         path: '/register',
@@ -92,7 +92,7 @@ const routes = [
             ]
         },
         component: Register,
-        beforeEnter: ifAlreadyAuthenticated
+        // beforeEnter: ifAlreadyAuthenticated
     },
     {
         path: '/',
@@ -111,7 +111,7 @@ const routes = [
             ]
         },
         component: Home,
-        beforeEnter: ifAuthenticated
+        // beforeEnter: ifAuthenticated
     },
     {
         path: '/scout',
@@ -130,7 +130,7 @@ const routes = [
             ]
         },
         component: ScoutObjects,
-        beforeEnter: ifAuthenticated
+        // beforeEnter: ifAuthenticated
     },
     {
         path: '/close-approaching',
@@ -149,7 +149,7 @@ const routes = [
             ]
         },
         component: CloseApproaching,
-        beforeEnter: ifAuthenticated
+        // beforeEnter: ifAuthenticated
     },
     {
         path: '*'
@@ -162,15 +162,6 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes
 });
-
-// router.beforeEach((to, from) => {
-//     if (to.name === from.name) {
-//         next(to.path);
-//     }
-// })
-
-// Quick implementation of a redirect rule
-// router.replace({ path: '*', redirect: '' }).catch({ });
 
 // Below Router Function obtained from article found at the following link:
 // https://alligator.io/vuejs/vue-router-modify-head/

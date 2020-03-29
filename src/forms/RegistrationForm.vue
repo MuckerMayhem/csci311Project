@@ -59,6 +59,9 @@
 
             <!-- Form errors and Submit Menu -->
             <div class="form-group text-center">
+                <!-- <div class="small text-danger text-left ml-3" v-if="this.errors['message']">
+                    {{ this.errors['message'] }}
+                </div> -->
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
                     tabindex="4" type="submit" :disabled="$v.$invalid">Register
                 </button>
