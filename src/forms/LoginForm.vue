@@ -73,7 +73,7 @@
                     axios.post('/~csci311e/server/login.php', {
                         username: this.username,
                         password: this.password
-                    }))
+                    })
                     .then(function (response) {
                         console.log(response.headers);
                         console.log(response.data);
