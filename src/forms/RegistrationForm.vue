@@ -120,14 +120,14 @@
                     .then(function (response) {
                         console.log(response.headers);
                         console.log(response.data);
+                        this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
                     })
                     .catch(function (errors) {
                         this.errors = errors;
                         console.log(errors);
                     });
                 }
-                this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
-                this.$router.push("/");
+                // this.$router.push("/");
             }
         }
 

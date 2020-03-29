@@ -59,6 +59,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
 
   export default {
     data() {
@@ -73,10 +74,8 @@
     },
     methods: {
       logout() {
-        import axios from 'axios';
-
         axios.post('/~csci311e/server/login.php');
-        // this.$cookies.remove("session_id");
+        this.$cookies.remove("session_id");
         // this.$router.push("/login");
       }
     }
