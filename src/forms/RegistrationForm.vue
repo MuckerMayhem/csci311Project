@@ -112,7 +112,7 @@
             submit() {
                 this.$v.$touch();
                 if (!this.$v.$error) {
-                    axios.post('/~csci311e/server/axios.php', {
+                    axios.post('/~csci311e/server/register.php', {
                         email: this.email,
                         username: this.username,
                         password: this.password
@@ -123,11 +123,10 @@
                         this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
                     })
                     .catch(function (errors) {
-                        this.errors = errors;
+                        this.errors = errors.toJSON();
                         console.log(errors);
                     });
                 }
-                // this.$router.push("/");
             }
         }
 
