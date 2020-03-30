@@ -116,11 +116,11 @@
                         username: this.username,
                         password: this.password
                     })
-                    .then(function () {
-                        this.$router.push("/");
+                    .then(() => {
                         this.$cookies.set("logged_in", "True");
+                        this.$router.push("/");
                     })
-                    .catch(function (error) {
+                    .catch(error => {
                         console.log("errors for registration: ");
                         console.log(error);
                         if (error.response) {
