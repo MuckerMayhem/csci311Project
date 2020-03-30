@@ -33,58 +33,55 @@
         </div>
       </div>
     </nav>
+
     <!-- Side navigation menu to be rendered when a user is logged on -->
     <template v-if="authenticated === true">
       <div class="sidenav">
-        <!-- <router-link alt="Home" class="sidenav-link py-2 text-light font-weight-bold home-nav-link" to="/"> -->
-         <h3 class="text-light text-center font-weight-lighter pt-3">Data Tables</h3>
-        <!-- </router-link> -->
+         <h3 class="text-dark text-center font-weight-lighter pt-3">Data Tables</h3>
         <hr/>
-        <!-- <div class="d-inline"> -->
-          <router-link alt="Scouted Objects" class="sidenav-link py-3 text-light font-weight-bold" to="/scout">
+          <router-link alt="Scouted Objects" class="sidenav-link py-3 text-dark" to="/scout">
             <img class="sidenav-icon mx-3" src="./assets/comet-1.png"/>
             Scouted NEOs
           </router-link>
-        <!-- </div> -->
 
-        <!-- <div class="d-inline"> -->
-          <router-link alt="Close Approaching Objects" class="sidenav-link py-3 text-light font-weight-bold" to="/close-approaching">
+          <router-link alt="Close Approaching Objects" class="sidenav-link py-3 text-dark" to="/close-approaching">
             <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
             Confirmed NEOs
           </router-link>
-        <!-- </div> -->
-
-        
       </div>
     </template>
     <router-view/>
 
     <footer class="m-auto main-footer">
-      <p> Copyright &copy;2020 Vancouver Island University | Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
+      <p> Copyright &copy;2020 Vancouver Island University <template v-if="authenticated===true"> | Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></template></p>
     </footer>
   </div>
 </template>
 
 <script>
+  import axios from 'axios';
 
   export default {
     data() {
       return {
-        authenticated: false
+        authenticated: this.$cookies.isKey("logged_in")
       }
     },
     watch: {
-      $route () {
-        this.authenticated = this.$cookies.isKey("session_id");
+      $route (to) {
+        if (to === "/" && !this.authenticated) {
+          this.$router.push("/login");
+        }
+        this.authenticated = this.$cookies.isKey("logged_in");
       }
     },
     methods: {
       logout() {
-        this.$cookies.remove("session_id");
+        axios.post('/~csci311e/server/login.php');
+        this.$cookies.remove("logged_in");
         this.$router.push("/login");
       }
     }
-
   }
 </script>
 
@@ -125,7 +122,7 @@
     z-index: 999;
     overflow-x: hidden;
     padding-top: 5rem;
-    background-color: #52619C;
+    background-color: #d8dee4;
   }
 
   .sidenav-link {

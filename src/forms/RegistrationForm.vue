@@ -5,7 +5,7 @@
             <div class="form-group row" :class="{ 'form-group--error': $v.username.$error }">
                 <label class="text-nasa-dark col-sm-3 col-form-label" for="username">Username: </label>
                 <div class="col-sm-9">
-                    <input autofocus class="form-control form__input" v-bind:class="{'is-invalid': $v.username.$error }"
+                    <input class="form-control form__input" v-bind:class="{'is-invalid': $v.username.$error }"
                         id="username" placeholder="Username" tabindex="1" type="text" v-model.trim.lazy="$v.username.$model"/>
                 </div>
                 <div class="small text-danger text-left ml-3" v-if="!$v.username.maxLength">
@@ -59,6 +59,9 @@
 
             <!-- Form errors and Submit Menu -->
             <div class="form-group text-center">
+                <div class="small text-danger text-left ml-3" v-if="this.errors.hasOwnProperty('message')">
+                    {{ this.errors.message }}
+                </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
                     tabindex="4" type="submit" :disabled="$v.$invalid">Register
                 </button>
@@ -69,7 +72,6 @@
 </template>
 
 <script>
-
     import { required, minLength, maxLength, email, sameAs } from "vuelidate/lib/validators";
     import axios from 'axios';
 
@@ -80,6 +82,7 @@
                 email: "",
                 password: "",
                 verify_password: "",
+                errors: {}
             }
         },
 
@@ -107,21 +110,33 @@
         methods: {
             submit() {
                 this.$v.$touch();
+                const vm = this;
                 if (!this.$v.$error) {
-                    axios.post('http://localhost:63342/csci311/php/axios.php', {
+                    axios.post('/~csci311e/server/register.php', {
                         email: this.email,
                         username: this.username,
                         password: this.password
                     })
-                        .then(function (response) {
-                            console.log(response.headers);
-                            console.log(response);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                    this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
-                    this.$router.push("/");
+                    .then(function (response) {
+                        console.log("Then block");
+                        console.log(response.headers);
+                        console.log(response.status);
+                        console.log(response.data);
+                        if (response.status == 201) {
+                            vm.$cookies.set("logged_in", "True");
+                            vm.$router.push("/");
+                        }
+                    })
+                    .catch(function (error) {
+                        if (error.response) {
+                            console.log("error block");
+                            console.log(error.response.headers);
+                            console.log(error.response.status);
+                            console.log(error.response.data);
+                            // Object.assign(this.errors, error.response);
+                            // console.log(this.errors);
+                        }
+                    });
                 }
             }
         }

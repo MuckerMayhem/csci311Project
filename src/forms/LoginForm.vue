@@ -29,6 +29,9 @@
             </div>
 
             <div class="form-group text-center">
+                <div class="small text-danger text-left ml-3" v-if="this.errors.hasOwnProperty('message')">
+                    {{ this.errors.message }}
+                </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
                     tabindex="4" type="submit" :disabled="$v.$invalid">Sign In
                 </button>
@@ -46,7 +49,7 @@
             return {
                 username: "",
                 password: "",
-                submitStatus: null
+                errors: {}
             }
         },
         validations: {
@@ -55,7 +58,6 @@
                 minLength: minLength(5),
                 maxLength: maxLength(40)
             },
-
             password: {
                 required,
                 minLength: minLength(5),
@@ -66,20 +68,34 @@
         methods: {
             submit() {
                 this.$v.$touch();
+                const vm = this;
                 if (!this.$v.$error) {
-                    axios.post('~csci311e/server/login.php', {
+                    axios.post('/~csci311e/server/login.php', {
                         username: this.username,
                         password: this.password
                     })
                     .then(function (response) {
-                        this.stuff = response;
+                        console.log("Then block");
                         console.log(response.headers);
+                        console.log(response.status);
+                        console.log(response.data);
+                        if (response.status == 200) {
+                            vm.$cookies.set("logged_in", "True");
+                            vm.$router.push("/");
+                        }
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        if (error.response) {
+                            console.log("error block");
+                            console.log(error.response.headers);
+                            console.log(error.response.status);
+                            console.log(error.response.data);
+                            // Object.assign(this.errors, error.response);
+                            // console.log(this.errors);
+                        } else {
+                            console.log(error.toJSON());
+                        }
                     });
-                    this.$cookies.set("session_id", "plural-of-pegasus-should-be-pegasi");
-                    this.$router.push("/");
                 }
             }
         }
