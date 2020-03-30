@@ -118,10 +118,17 @@
                         password: this.password
                     })
                     .then(function (response) {
+<<<<<<< HEAD
                         if (response.status == 200) {
                             vm.$cookies.set("logged_in", "True");
                             vm.$router.push("/");
                         }
+=======
+                        console.log(response);
+                        console.log(response.headers);
+                        vm.$cookies.set("logged_in", "True");
+                        vm.$router.push("/");
+>>>>>>> ea109ac5bc71ac5b3ba9334820bf90bca7274831
                     })
                     .catch(function (error) {
                         console.log(error.response);
