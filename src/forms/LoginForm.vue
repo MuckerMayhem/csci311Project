@@ -78,6 +78,8 @@
                         this.$cookies.set("logged_in", "True");
                     })
                     .catch(function (error) {
+                        console.log("errors for login");
+                        console.log(error);
                         if (error.response) {
                             console.log(error.response);
                             Object.assign(this.errors, error.response);
