@@ -117,15 +117,15 @@
                         username: this.username,
                         password: this.password
                     })
-                    .then(function () {
+                    .then(function (response) {
+                        console.log(response.statusText);
                         vm.$cookies.set("logged_in", "True");
                         vm.$router.push("/");
                     })
                     .catch(function (error) {
                         console.log(error);
-                        if (error.response) {
-                            Object.assign(this.errors, error.response);
-                        }
+                        Object.assign(this.errors, error);
+                        console.log(this.errors);
                     });
                 }
             }

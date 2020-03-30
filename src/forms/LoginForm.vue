@@ -74,7 +74,8 @@
                         username: this.username,
                         password: this.password
                     })
-                    .then(function () {
+                    .then(function (response) {
+                        console.log(response.statusText);
                         vm.$cookies.set("logged_in", "True");
                         vm.$router.push("/");
                     })
