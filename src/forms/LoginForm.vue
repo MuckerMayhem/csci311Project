@@ -68,21 +68,20 @@
         methods: {
             submit() {
                 this.$v.$touch();
+                const vm = this;
                 if (!this.$v.$error) {
                     axios.post('/~csci311e/server/login.php', {
                         username: this.username,
                         password: this.password
                     })
                     .then(() => {
-                        this.$cookies.set("logged_in", "True");
-                        this.$router.push("/");
+                        vm.$cookies.set("logged_in", "True");
+                        vm.$router.push("/");
                     })
                     .catch(error => {
-                        console.log("errors for login");
                         console.log(error);
                         if (error.response) {
-                            console.log(error.response);
-                            Object.assign(this.errors, error.response);
+                            Object.assign(vm.errors, error.response);
                         }
                     });
                 }
