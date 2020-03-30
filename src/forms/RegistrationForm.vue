@@ -118,7 +118,8 @@
                         password: this.password
                     })
                     .then(function (response) {
-                        console.log(response.statusText);
+                        console.log(response);
+                        console.log(response.headers);
                         vm.$cookies.set("logged_in", "True");
                         vm.$router.push("/");
                     })
