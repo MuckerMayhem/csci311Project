@@ -133,8 +133,9 @@
                             console.log(error.response.headers);
                             console.log(error.response.status);
                             console.log(error.response.data);
-                            // Object.assign(this.errors, error.response);
-                            // console.log(this.errors);
+                            Object.assign(this.errors, error.response.data);
+                            console.log("Errors stored in Vue state: ");
+                            console.log(this.errors);
                         }
                     });
                 }

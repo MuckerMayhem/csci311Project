@@ -79,7 +79,7 @@
                         console.log(response.headers);
                         console.log(response.status);
                         console.log(response.data);
-                        if (response.status == 200) {
+                        if (199 < response.status < 300) {
                             vm.$cookies.set("logged_in", "True");
                             vm.$router.push("/");
                         }
@@ -90,10 +90,9 @@
                             console.log(error.response.headers);
                             console.log(error.response.status);
                             console.log(error.response.data);
-                            // Object.assign(this.errors, error.response);
-                            // console.log(this.errors);
-                        } else {
-                            console.log(error.toJSON());
+                            Object.assign(this.errors, error.response.data);
+                            console.log("Errors stored in Vue state: ");
+                            console.log(this.errors);
                         }
                     });
                 }
