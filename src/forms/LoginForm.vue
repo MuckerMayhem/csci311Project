@@ -74,15 +74,13 @@
                         username: this.username,
                         password: this.password
                     })
-                    .then(() => {
+                    .then(function () {
                         vm.$cookies.set("logged_in", "True");
                         vm.$router.push("/");
                     })
-                    .catch(error => {
-                        console.log(error);
-                        if (error.response) {
-                            Object.assign(vm.errors, error.response);
-                        }
+                    .catch(function (error) {
+                        Object.assign(this.errors, error.response);
+                        console.log(this.errors);
                     });
                 }
             }
