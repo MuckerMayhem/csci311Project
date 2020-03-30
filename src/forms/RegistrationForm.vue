@@ -124,9 +124,14 @@
                         }
                     })
                     .catch(function (error) {
-                        console.log(error.response);
-                        Object.assign(this.errors, error.response);
-                        console.log(this.errors);
+                        if (error.response) {
+                            console.log(error.response);
+                            Object.assign(this.errors, error.response);
+                            console.log(this.errors);
+                        } else {
+                            console.log(error.toJSON());
+                        }
+
                     });
                 }
             }
