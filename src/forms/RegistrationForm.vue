@@ -118,20 +118,24 @@
                         password: this.password
                     })
                     .then(function (response) {
-                        if (response.status == 200) {
+                        console.log("Then block");
+                        console.log(response.headers);
+                        console.log(response.status);
+                        console.log(response.data);
+                        if (response.status == 201) {
                             vm.$cookies.set("logged_in", "True");
                             vm.$router.push("/");
                         }
                     })
                     .catch(function (error) {
                         if (error.response) {
-                            console.log(error.response);
-                            Object.assign(this.errors, error.response);
-                            console.log(this.errors);
-                        } else {
-                            console.log(error.toJSON());
+                            console.log("error block");
+                            console.log(error.response.headers);
+                            console.log(error.response.status);
+                            console.log(error.response.data);
+                            // Object.assign(this.errors, error.response);
+                            // console.log(this.errors);
                         }
-
                     });
                 }
             }
