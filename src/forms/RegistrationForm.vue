@@ -59,9 +59,9 @@
 
             <!-- Form errors and Submit Menu -->
             <div class="form-group text-center">
-                <!-- <div class="small text-danger text-left ml-3" v-if="this.errors['message']">
-                    {{ this.errors['message'] }}
-                </div> -->
+                <div class="small text-danger text-left ml-3" v-if="this.errors.hasOwnProperty('message')">
+                    {{ this.errors.message }}
+                </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
                     tabindex="4" type="submit" :disabled="$v.$invalid">Register
                 </button>
@@ -72,7 +72,6 @@
 </template>
 
 <script>
-
     import { required, minLength, maxLength, email, sameAs } from "vuelidate/lib/validators";
     import axios from 'axios';
 
@@ -122,9 +121,9 @@
                         this.$cookies.set("logged_in", "True");
                     })
                     .catch(function (error) {
-                        if (error.response.data) {
-                            console.log(error.response.data);
-                            Object.assign(this.errors, error.response.data);
+                        if (error.response) {
+                            console.log(error.response);
+                            Object.assign(this.errors, error.response);
                         }
                     });
                 }

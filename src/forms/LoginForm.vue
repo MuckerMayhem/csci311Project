@@ -58,7 +58,6 @@
                 minLength: minLength(5),
                 maxLength: maxLength(40)
             },
-
             password: {
                 required,
                 minLength: minLength(5),
@@ -79,9 +78,9 @@
                         this.$cookies.set("logged_in", "True");
                     })
                     .catch(function (error) {
-                        if (error.response.data) {
-                            console.log(error.response.data);
-                            Object.assign(this.errors, error.response.data);
+                        if (error.response) {
+                            console.log(error.response);
+                            Object.assign(this.errors, error.response);
                         }
                     });
                 }
