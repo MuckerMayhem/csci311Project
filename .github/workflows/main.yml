@@ -18,5 +18,5 @@ jobs:
         with:
           ref: 'gh-pages'
       - name: Upload files
-        run: rsync -ru * csci311e@csci.viu.ca:~/public_html/
+        run: rsync -ru * csci311e@csci.viu.ca:~/public_html/ --delete
         working-directory: /home/pi/actions-runner/project/csci311Project/csci311Project
