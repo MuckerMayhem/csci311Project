@@ -8,11 +8,15 @@
                     <input class="form-control form__input" v-bind:class="{'is-invalid': $v.username.$error }"
                         id="username" placeholder="Username" tabindex="1" type="text" v-model.trim.lazy="$v.username.$model"/>
                 </div>
-                <div class="small text-danger text-left ml-3" v-if="!$v.username.maxLength">
+                <div class="small text-danger text-left" v-if="!$v.username.maxLength">
                     Username must not contain more than {{$v.username.$params.maxLength.max}} characters.
                 </div>
-                <div class="small text-danger text-left ml-3" v-if="!$v.username.minLength">
+                <div class="small text-danger text-left" v-if="!$v.username.minLength">
                     Username must have at least {{$v.username.$params.minLength.min}} characters.
+                </div>
+                <!-- Render username errors from server -->
+                <div class="small text-danger text-left" v-if="this.errors.username">
+                    {{ this.errors.username }}
                 </div>
             </div>
 
@@ -23,8 +27,12 @@
                     <input class="form-control form__input" id="email" placeholder="Email" v-bind:class="{'is-invalid': $v.email.$error }"
                         tabindex="2" v-model.trim.lazy="$v.email.$model"/>
                 </div>
-                <div class="small text-danger text-left mb-2" v-if="!$v.email.email">
+                <div class="small text-danger text-left" v-if="!$v.email.email">
                     Email is invalid.
+                </div>
+                <!-- Render email errors from server -->
+                <div class="small text-danger text-left" v-if="this.errors.email">
+                    {{ this.errors.email }}
                 </div>
             </div>
             <hr class="bg-nasa-dark">
@@ -36,11 +44,15 @@
                     <input class="form-control form__input" placeholder="Password" id="password" v-bind:class="{'is-invalid': $v.password.$error }" tabindex="2" type="password" 
                         v-model.trim.lazy="$v.password.$model"/>
                 </div>
-                <div class="small text-danger text-left ml-3" v-if="!$v.password.maxLength">
+                <div class="small text-danger text-left" v-if="!$v.password.maxLength">
                     Password must not contain more than {{$v.password.$params.maxLength.max}} characters.
                 </div>
-                <div class="small text-danger text-left ml-3" v-if="!$v.password.minLength">
+                <div class="small text-danger text-left" v-if="!$v.password.minLength">
                     Password must be at least  more than {{$v.password.$params.minLength.min}} characters.
+                </div>
+                <!-- Render password errors from server -->
+                <div class="small text-danger text-left" v-if="this.errors.password">
+                    {{ this.errors.password }}
                 </div>
             </div>
 
@@ -51,7 +63,7 @@
                     <input class="form-control" id="verify-password" placeholder="Confirm Password" v-bind:class="{'is-invalid': $v.verify_password.$error }"
                         tabindex="4" type="password" v-model="$v.verify_password.$model"/>
                 </div>
-                <div class="small text-danger text-left ml-3" 
+                <div class="small text-danger text-left" 
                     v-if="!$v.verify_password.sameAs && $v.password.required && $v.verify_password.required ">
                     Passwords do not match.
                 </div>
@@ -59,7 +71,7 @@
 
             <!-- Form errors and Submit Menu -->
             <div class="form-group text-center">
-                <div class="small text-danger text-left ml-3" v-if="this.errors.hasOwnProperty('message')">
+                <div class="small text-danger text-center" v-if="this.errors.message">
                     {{ this.errors.message }}
                 </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
@@ -108,33 +120,23 @@
         },
 
         methods: {
-            submit() {
+            submit: function() {
                 this.$v.$touch();
-                const vm = this;
                 if (!this.$v.$error) {
                     axios.post('/~csci311e/server/register.php', {
                         email: this.email,
                         username: this.username,
                         password: this.password
                     })
-                    .then(function (response) {
-                        console.log("Then block");
-                        console.log(response.headers);
-                        console.log(response.status);
-                        console.log(response.data);
-                        if (response.status == 201) {
-                            vm.$cookies.set("logged_in", "True");
-                            vm.$router.push("/");
+                    .then(response => {
+                        if (199 < response.status < 300) {
+                            this.$cookies.set("logged_in", "True");
+                            this.$router.push("/");
                         }
                     })
-                    .catch(function (error) {
+                    .catch(error => {
                         if (error.response) {
-                            console.log("error block");
-                            console.log(error.response.headers);
-                            console.log(error.response.status);
-                            console.log(error.response.data);
-                            // Object.assign(this.errors, error.response);
-                            // console.log(this.errors);
+                            this.errors = Object.assign({}, this.errors, error.response.data);
                         }
                     });
                 }

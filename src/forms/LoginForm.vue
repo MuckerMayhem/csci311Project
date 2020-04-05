@@ -7,12 +7,16 @@
                 <label class="text-nasa-dark" for="username">Username</label>
                 <input autofocus class="form-control form__input" v-bind:class="{'is-invalid': $v.username.$error }" id="username" placeholder="Username" tabindex="1" 
                     v-model.trim.lazy="$v.username.$model"/>
-            </div>
-            <div class="small text-danger text-left mb-2" v-if="!$v.username.maxLength">
-                Username must not contain more than {{$v.username.$params.maxLength.max}} characters.
-            </div>
-            <div class="small text-danger text-left mb-2" v-if="!$v.username.minLength">
-                Username must have at least {{$v.username.$params.minLength.min}} characters.
+                <div class="small text-danger text-left" v-if="!$v.username.maxLength">
+                    Username must not contain more than {{$v.username.$params.maxLength.max}} characters.
+                </div>
+                <div class="small text-danger text-left" v-if="!$v.username.minLength">
+                    Username must have at least {{$v.username.$params.minLength.min}} characters.
+                </div>
+                <!-- Render username errors from server -->
+                <div class="small text-danger text-left" v-if="this.errors.username">
+                    {{ this.errors.username }}
+                </div>
             </div>
 
             <!-- Password form and validation -->
@@ -26,10 +30,14 @@
                 <div class="small text-danger text-left" v-if="!$v.password.minLength">
                     Password must be at least  more than {{$v.password.$params.minLength.min}} characters.
                 </div>
+                <!-- Render password errors from server -->
+                <div class="small text-danger text-left" v-if="this.errors.password">
+                    {{ this.errors.password }}
+                </div>
             </div>
 
             <div class="form-group text-center">
-                <div class="small text-danger text-left ml-3" v-if="this.errors.hasOwnProperty('message')">
+                <div class="small text-danger text-center" v-if="this.errors.message">
                     {{ this.errors.message }}
                 </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
@@ -66,39 +74,26 @@
         },
 
         methods: {
-            submit() {
+            submit: function() {
                 this.$v.$touch();
-                const vm = this;
                 if (!this.$v.$error) {
                     axios.post('/~csci311e/server/login.php', {
                         username: this.username,
                         password: this.password
                     })
-                    .then(function (response) {
-                        console.log("Then block");
-                        console.log(response.headers);
-                        console.log(response.status);
-                        console.log(response.data);
-                        if (response.status == 200) {
-                            vm.$cookies.set("logged_in", "True");
-                            vm.$router.push("/");
+                    .then(response => {
+                        if (199 < response.status < 300) {
+                            this.$cookies.set("logged_in", "True");
+                            this.$router.push("/");
                         }
                     })
-                    .catch(function (error) {
+                    .catch(error => {
                         if (error.response) {
-                            console.log("error block");
-                            console.log(error.response.headers);
-                            console.log(error.response.status);
-                            console.log(error.response.data);
-                            // Object.assign(this.errors, error.response);
-                            // console.log(this.errors);
-                        } else {
-                            console.log(error.toJSON());
+                            this.errors = Object.assign({}, this.errors, error.response.data);
                         }
                     });
                 }
             }
         }
-
     }
 </script>
