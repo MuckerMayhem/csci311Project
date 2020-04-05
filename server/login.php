@@ -3,56 +3,62 @@
 // Created by: Sarah Carruthers, March 2020
 // Modified by: Ezra MacDonald, March 2020
 
-    header('Access-Control-Allow-Methods: POST');
+$log_file = "./error_log.log";
+ini_set("log_errors", TRUE);
+ini_set('error_log', $log_file);
 
-    require_once("lib/auth.php");
-    require_once("lib/validators.php");
+require_once("lib/auth.php");
+require_once("lib/validators.php");
+require_once("lib/json_helpers.php");
 
-    session_start();
+session_start();
 
-    // Check if user is already logged in
-    if (isset($_SESSION['users']['username'])) {
-        header("location:home.php");
-        http_response_code(300); // General redirect status code
-        exit;
-    }
+// Check if user is already logged in
+if (isset($_SESSION['users']['username'])) {
+    http_response_code(201);
+    header("location:home.php");
+    exit;
+}
 
-    // Attempt to log in user
-    $err = array("message" => "");
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $json = file_get_contents('php://input');
-        $data = json_decode($json['data']);
-        $username = $data['username'];
-        $password = $data['password'];
+// Attempt to log in user
+$err = array();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, TRUE);
+    $username = trim($data['username']);
+    $password = trim($data['password']);
 
-        if (isset($password) && isset($username)) {
-            // trim white space and set max length
-            if (!has_format_matching($password, '/[A-Za-z0-9_]/')) {
-                $err["message"] = "Password must only contain letters, numbers and underscores.";
-                http_response_code(401);
-                echo json_encode($err);
-            } elseif (!has_format_matching($username, '/[A-Za-z0-9_]/')) {
-                $err["message"] = "Username must only contain letters, numbers and underscores.";
-                http_response_code(401);
-                echo json_encode($err);
+    if (isset($password) && isset($username)) {
+        // Password validation
+        if (!has_format_matching($password, '/^[A-Za-z0-9_]+$/')) {
+            $err["password"] = "Password must only contain letters, numbers and underscores.";
+        } elseif (!has_length($password, ['min' => 4, 'max' => 50])) {
+            $err["password"] = "Password must have length between 4 and 50 characters.";
+        }
+
+        if (!has_format_matching($username, '/^[A-Za-z0-9_]+$/')) {
+            $err["username"] = "Username must only contain letters, numbers and underscores.";
+        } elseif (!has_length($password, ['min' => 4, 'max' => 50])) {
+            $err["username"] = "Username must have length between 4 and 50 characters.";
+        }
+
+        if (empty($err)) {
+            $logged_in = attempt_login($username, $password);
+            if ($logged_in) {
+                $_SESSION['users']['username'] = $username;
+                echo json_response(200, 'Successful login.');
+                exit;
             } else {
-                $logged_in = attempt_login($username, $password);
-                if ($logged_in) {
-                    $_SESSION['users']['username'] = $username;
-                    session_id();
-                    header("location:home.php");        
-                } else {
-                    $err["message"] = "Unable to find user with that username and password.";
-                    http_response_code(401);
-                    echo json_encode($err);         
-                }
+                echo json_response(403, "Unable to find user with that username and password.");
+                exit;
             }
         } else {
-            $err["message"] = "Malformed request received.";
-            echo json_encode($err);
+            echo json_response(403, $err);
         }
-        echo json_encode($err);
     } else {
-        header("HTTP/1.0 Method Not Allowed", TRUE, 405);
+        echo json_response(400, "Malformed request, unable to process.");
     }
+} else {
+    echo json_response(405, "Invalid HTTP Method.");
+}
 ?>
