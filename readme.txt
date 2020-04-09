@@ -1,5 +1,7 @@
 INSTALL INSTRUCTIONS:
 
+0. Ensure PHP 7 is installed on the server computer.
+
 1. If you have access to the repository on github, check that the runner is in the "Idle" state 
    and then re-run the last action to have the runner auto-compile and upload the javascript portion of the project.
 
