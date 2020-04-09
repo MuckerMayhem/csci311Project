@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Validate username
         if (!has_format_matching($username, '/^[A-Za-z0-9_]+$/')) {
             $err["username"] = "Username must only contain letters, numbers and underscores.";
-        } elseif (!has_length($password, ['min' => 4, 'max' => 50])) {
+        } elseif (!has_length($username, ['min' => 4, 'max' => 50])) {
             $err["username"] = "Username must have length between 4 and 50 characters.";
         }
 
