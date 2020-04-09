@@ -37,22 +37,31 @@
     <!-- Side navigation menu to be rendered when a user is logged on -->
     <template v-if="authenticated === true">
       <div class="sidenav">
-         <h3 class="text-dark text-center font-weight-lighter pt-3">Data Tables</h3>
+        <router-link alt="Home" class="text-dark" to="/">
+          <h3 class="text-dark text-center pt-3">Home</h3>
+        </router-link>
         <hr/>
+          <router-link alt="Fireballs" class="sidenav-link py-3 text-dark" to="/fireballs">
+            <img class="sidenav-icon mx-3" src="./assets/planet-earth.png"/>
+            Fireballs
+          </router-link>
+          <router-link alt="Fireballs" class="sidenav-link py-3 text-dark" to="/fireballs">
+            <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
+            PHAs
+          </router-link>
           <router-link alt="Scouted Objects" class="sidenav-link py-3 text-dark" to="/scout">
             <img class="sidenav-icon mx-3" src="./assets/comet-1.png"/>
             Scouted NEOs
           </router-link>
-
           <router-link alt="Close Approaching Objects" class="sidenav-link py-3 text-dark" to="/close-approaching">
-            <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
+            <img class="sidenav-icon mx-3" src="./assets/meteorite.png"/>
             Confirmed NEOs
           </router-link>
       </div>
     </template>
     <router-view/>
 
-    <footer class="m-auto main-footer">
+    <footer class="m-auto sticky-bottom text-center small">
       <p> Copyright &copy;2020 Vancouver Island University <template v-if="authenticated===true"> | Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></template></p>
     </footer>
   </div>
@@ -147,13 +156,12 @@
     color: #3B4B5A !important;
   }
 
-  .main-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 3rem;
-    text-align: center;
-    font-size: small;
+  .modal-backdrop {
+    opacity: 0.5 !important;
+  }
+
+  tr[role="row"] {
+    outline: none;
   }
 
 </style>

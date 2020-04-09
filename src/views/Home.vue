@@ -1,12 +1,60 @@
 <template>
   <div class="home">
-    <h2 class="py-4 text-center">Picture of the Day</h2>
-    <div class="container text-center">
-      <img class="picOfTheDay" v-bind:src="image" v-bind:alt="title"/>
-      <h4 class="py-3 text-center">{{ title }}</h4>
-      <p class="picOfDayDescription mx-auto small">{{ description }}</p>
+  
+    <h1 class="py-5 text-center">Analysis until you require dialysis!</h1>
+    <div class="border-top mx-auto my-3 w-75"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h3 class="text-center mb-3">Fireballs</h3>
+          <p class="text-left">
+            Fireballs are an astronomical term for for exceptionally bright meteors that
+            are spectacular enough to be observed over a wide area. The Fireball dataset
+            includes such events that were observed by U.S. Government sensor and were stored
+            by the Center for Near Earth Object Studies. This dataset is by no means a complete
+            list of fireball events, but only the brightest fireballs encountered recently.
+          </p>
+          <!-- Reference for above text: https://cneos.jpl.nasa.gov/fireballs/intro.html -->
+        </div>
+        <div class="col">
+          <h3 class="text-center mb-3">PHAs</h3>
+          <p class="text-left">
+            Potentially Hazardous Asteroids (PHAs) are defined based on parameters that measure
+            the asteroid's potential to make threatening close approaches to Earth. Specifically,
+            all asteroids with a minimum intersection distance (MOID) of 0.05 au or less and an
+            absolute magnitude (H) of 22.0 or less are considered PHAs.
+          </p>
+        </div>
+      </div>
     </div>
+    
+    <div class="border-top mx-auto my-3 w-75"></div>
 
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h3 class="text-center mb-3">Scouted NEOs</h3>
+          <p class="text-left">
+            Scouted Near Earth Objects are unconfirmed objects analyzed by the Center for Near Earth Object
+            Studies's Scout system. Scout provides trajectory analysis and hazard assessment for recently detected
+            objects on the Minor Planet Center's Near Earth Object Confirmation Page. These objects could be real
+            asteroids, but they cannot be officially designated unti lthey are confirmed by additional observations.
+            Once objects are confirmed, they dissapear from this data store and are given an official designation. 
+          </p>
+          <!-- Reference for above text: https://cneos.jpl.nasa.gov/scout/intro.html-->
+        </div>
+        <div class="col">
+          <h3 class="text-center mb-3">Observed NEOs</h3>
+            As Near Earth Objects orbit the sun, they occassionally approach Earth. Note that a “close” passage 
+            astronomically can be very far away in human terms: millions or even tens of millions of kilometers. 
+            CNEOS software detects predicted Earth close approaches for all known NEOs, in both the past and the 
+            future, and tabulates the close approach data organized by time.
+          <p class="text-left">
+          <!-- Reference for above text: https://cneos.jpl.nasa.gov/ca/neo_ca_intro.html -->
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,7 +86,7 @@
 <style scoped>
   .home {
     min-height: 100vh;
-    margin-left: 200px;
+    margin-left: 250px;
     padding-top: 5rem;
   }
 

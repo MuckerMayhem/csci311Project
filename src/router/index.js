@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuelidate from 'vuelidate'
 import VueCookies from 'vue-cookies'
+import { BootstrapVue } from 'bootstrap-vue'
 
 import Login from '@/views/Login.vue'
 import About from '@/views/About.vue'
@@ -9,11 +10,14 @@ import Register from '@/views/Register.vue'
 import Home from '@/views/Home.vue'
 import ScoutObjects from '@/views/ScoutObjects.vue'
 import CloseApproaching from '@/views/CloseApproaching.vue'
+import Fireballs from '@/views/Fireballs.vue'
 
+import InternalError from '@/views/InternalError.vue'
 
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 Vue.use(VueCookies);
+Vue.use(BootstrapVue);
 
 // configure cookies to be set for one day
 Vue.$cookies.config('1d');
@@ -150,6 +154,43 @@ const routes = [
         },
         component: CloseApproaching,
         beforeEnter: ifNotAuthenticated
+    },
+    {
+        path: '/fireballs',
+        name: 'Fireballs',
+        meta: {
+            title: 'Fireballs - NASAnalysis',
+            metaTags: [
+                {
+                    name: 'description',
+                    content: 'The latest data on Fireballs that have struck the earth.'
+                },
+                {
+                    name: 'og:description',
+                    content: 'The latest data on Fireballs that have struck the earth.'
+                }
+            ]
+        },
+        component: Fireballs,
+        beforeEnter: ifNotAuthenticated
+    },
+    {
+        path: '/500',
+        name: 'InternalErro',
+        meta: {
+            title: '500 - Internal Server Error',
+            metaTags: [
+                {
+                    name: 'description',
+                    content: 'Unable to access requested resource.'
+                },
+                {
+                    name: 'og:description',
+                    content: 'Unable to access requested resource.'
+                }
+            ]
+        },
+        component: InternalError
     },
     {
         path: '*'
