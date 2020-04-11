@@ -4,7 +4,7 @@
             <h2 class="py-4 text-center">Fireballs</h2>
 
             <b-table id="data-table" class="w-100" hover bordered small responsive="sm" per-page="20"
-             thead-class="text-center font-weight-normal"
+             thead-class="text-center small"
              tbody-class="small"
              :current-page="current_page" 
              :items="items"
@@ -139,7 +139,7 @@
             })
             .catch(error => {
                 if (error.response) {
-                    this.$router.push("/500");                
+                    this.$router.push("/500");            
                 }
             })
         },
@@ -163,7 +163,7 @@
                     })
                 });
                 this.items = Object.assign([], this.items, fireballs);
-                this.row_count = items.row_count;
+                this.row_count = items.length;
             },
 
             parseLatitude(numString) {
