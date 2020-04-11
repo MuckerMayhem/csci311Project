@@ -4,7 +4,7 @@
             <h2 class="py-4 text-center">Scouted Objects</h2>
 
             <b-table id="data-table" class="w-100" hover bordered small responsive="sm" per-page="20"
-             thead-class="text-center font-weight-normal"
+             thead-class="text-center small"
              tbody-class="small"
              :current-page="current_page" 
              :items="items"
