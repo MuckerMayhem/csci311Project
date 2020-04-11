@@ -1,5 +1,5 @@
 <template>
-    <div class="about container text-center pt-4">
+    <div class="about container pt-4">
         <h1>Internal Server Error.</h1>
         <h6 class="my-4 text-center">
             At this time we are unable to access requested resources. Please try again some other time.

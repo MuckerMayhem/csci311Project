@@ -133,14 +133,14 @@
         },
 
         mounted() {
-            axios.post('/~csci311e/server/fireballs.php', {
-                row_index: this.row_index
-            })
+            axios.get('/~csci311e/server/fireballs.php')
             .then(response => {
                 this.fillData(response.data);
             })
-            .catch(() => {
-                this.$router.push("/500");
+            .catch(error => {
+                if (error.response) {
+                    this.$router.push("/500");                
+                }
             })
         },
 
