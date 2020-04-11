@@ -1,18 +1,29 @@
 <template>
     <div class="fireballs">
-        <div class="container w-100">
+        <div class="container-fluid w-100">
             <h2 class="py-4 text-center">Fireballs</h2>
 
-            <b-table id="data-table" hover bordered small responsive per-page="10" :items="items" @row-clicked="showModal"></b-table>
+            <b-table id="data-table" class="w-100" hover bordered small responsive="sm" per-page="20"
+             thead-class="text-center font-weight-normal"
+             tbody-class="small"
+             :current-page="current_page" 
+             :items="items"
+             :fields="fields"
+             :sort-by.sync="sort_by"
+             :sort-desc.sync="sort_desc"
+             sort-icon-left
+             @row-clicked="showModal"
+            ></b-table>
+            
             <b-pagination class="justify-content-center" v-model="current_page"
                 :total-rows="row_count"
-                :per-page="per_page"
+                per-page="20"
                 first-text="First"
                 prev-text="Prev"
                 next-text="Next"
                 last-text="Last"
                 aria-controls="data-table"
-                ></b-pagination>
+            ></b-pagination>
 
             <!-- Modal for displaying individual Fireball information -->
             <div class="container-fluid">
@@ -27,7 +38,7 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Peak Brightness Date/Time (UT)</th>
-                                <td>{{ infoModal.peak_brightness }}</td>
+                                <td>{{ infoModal.peak_brightness.toString() }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Latitude (degrees)</th>
@@ -83,16 +94,28 @@
         },
         data() {
             return {
-                fields: ['peak_brightness', 'latitude', 'longitude', 'altitude',
-                            'velocity', 'velocity_x', 'velocity_y', 'velocity_z',
-                            'radiated_energy', 'impact_energy'],
+                fields: [
+                    {key: 'peak_brightness', sortable: true },
+                    { key: 'latitude', sortable: true },
+                    { key: 'longitude', sortable: true },
+                    { key: 'altitude', sortable: true },
+                    { key: 'velocity', sortable: true },
+                    { key: 'velocity_x', sortable: true },
+                    { key: 'velocity_y', sortable: true },
+                    { key: 'velocity_z', sortable: true },
+                    { key: 'radiated_energy', sortable: true },
+                    { key: 'radiated_energy', sortable: true },
+                    { key: 'impact_energy', sortable: true }
+                ],
                 items: [],
+                sort_by: 'peak_brightness',
+                sort_desc: false,
                 row_count: 0,
                 row_index: 0,
-                per_page: 10,
+                per_page: 20,
                 current_page: 1,
                 infoModal: {
-                    peak_brightness: Date(),
+                    peak_brightness: {},
                     latitude: '',
                     longitude: '',
                     altitude: '',
@@ -121,30 +144,13 @@
             })
         },
 
-        watch: {
-            current_page: () => {
-                this.getData();
-            }
-        },
-
         methods: {
-            getData() {
-                axios.post('/~csci311e/server/fireballs.php', {
-                    row_index: this.row_index*10
-                })
-                .then(response => {
-                    this.fillData(response.data);
-                })
-                .catch(() => {
-                    this.$router.push("/500");
-                })
-            },
-
             fillData(items) {
                 var fireballs = Array();
+                // var brightness_date;
                 items.data.forEach(function (item) {
                     fireballs.push({
-                        'peak_brightness': Date(item.peak_brightness),
+                        'peak_brightness': (new Date(item.peak_brightness)),
                         'latitude': item.latitude,
                         'longitude': item.longitude,
                         'altitude': item.altitude,
@@ -177,7 +183,7 @@
             },
 
             showModal(record) {
-                // Set data table values
+                // Set modal data table values
                 this.infoModal.peak_brightness = record.peak_brightness;
                 this.infoModal.latitude = record.latitude;
                 this.infoModal.longitude = record.longitude;

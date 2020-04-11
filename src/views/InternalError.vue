@@ -17,5 +17,6 @@
     .about {
         min-height: 100vh;
         margin-left: 250px;
+        margin-top: 7.5rem;
     }
 </style>

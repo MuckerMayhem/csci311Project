@@ -45,7 +45,7 @@
             <img class="sidenav-icon mx-3" src="./assets/planet-earth.png"/>
             Fireballs
           </router-link>
-          <router-link alt="Fireballs" class="sidenav-link py-3 text-dark" to="/fireballs">
+          <router-link alt="Fireballs" class="sidenav-link py-3 text-dark" to="/PHAs">
             <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
             PHAs
           </router-link>

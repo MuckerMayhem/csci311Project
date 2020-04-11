@@ -11,6 +11,7 @@ import Home from '@/views/Home.vue'
 import ScoutObjects from '@/views/ScoutObjects.vue'
 import CloseApproaching from '@/views/CloseApproaching.vue'
 import Fireballs from '@/views/Fireballs.vue'
+import PHAs from '@/views/PHAs.vue'
 
 import InternalError from '@/views/InternalError.vue'
 
@@ -156,6 +157,25 @@ const routes = [
         beforeEnter: ifNotAuthenticated
     },
     {
+        path: '/PHAs',
+        name: 'PHAs',
+        meta: {
+            title: 'Potentially Hazardous Asteroids - NASAnalysis',
+            metaTags: [
+                {
+                    name: 'description',
+                    content: 'A comprehensive list of asteroids orbiting the sun that will travel near earth.'
+                },
+                {
+                    name: 'og:description',
+                    content: 'A comprehensive list of asteroids orbiting the sun that will travel near earth.'
+                }
+            ]
+        },
+        component: PHAs,
+        beforeEnter: ifNotAuthenticated
+    },
+    {
         path: '/fireballs',
         name: 'Fireballs',
         meta: {
@@ -176,7 +196,7 @@ const routes = [
     },
     {
         path: '/500',
-        name: 'InternalErro',
+        name: 'InternalError',
         meta: {
             title: '500 - Internal Server Error',
             metaTags: [

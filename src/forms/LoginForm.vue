@@ -41,7 +41,7 @@
                     {{ this.errors.message }}
                 </div>
                 <button class="btn btn-md bg-nasa-dark text-light font-weight-bold mt-3 mb-2 py-2 px-5" 
-                    tabindex="4" type="submit" :disabled="$v.$invalid">Sign In
+                    tabindex="3" type="submit" :disabled="$v.$invalid">Sign In
                 </button>
             </div>
         </form>
