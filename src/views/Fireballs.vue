@@ -163,7 +163,7 @@
                     })
                 });
                 this.items = Object.assign([], this.items, fireballs);
-                this.row_count = items.length;
+                this.row_count = items.data.length;
             },
 
             parseLatitude(numString) {

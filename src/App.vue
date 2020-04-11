@@ -45,10 +45,6 @@
             <img class="sidenav-icon mx-3" src="./assets/planet-earth.png"/>
             Fireballs
           </router-link>
-          <router-link alt="Fireballs" class="sidenav-link py-3 text-dark" to="/PHAs">
-            <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
-            PHAs
-          </router-link>
           <router-link alt="Scouted Objects" class="sidenav-link py-3 text-dark" to="/scout">
             <img class="sidenav-icon mx-3" src="./assets/comet-1.png"/>
             Scouted NEOs
@@ -56,6 +52,10 @@
           <router-link alt="Close Approaching Objects" class="sidenav-link py-3 text-dark" to="/close-approaching">
             <img class="sidenav-icon mx-3" src="./assets/meteorite.png"/>
             Confirmed NEOs
+          </router-link>
+          <router-link alt="Fireballs" class="sidenav-link py-3 text-dark" to="/PHAs">
+            <img class="sidenav-icon mx-3" src="./assets/planet-earth-4.png"/>
+            PHAs
           </router-link>
       </div>
     </template>
