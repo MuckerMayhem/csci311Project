@@ -4,7 +4,7 @@
             <h2 class="py-4 text-center">Scouted Objects</h2>
 
             <b-table id="data-table" class="w-100" hover bordered small responsive="sm" per-page="20"
-             thead-class="text-center font-weight-normal"
+             thead-class="text-center small"
              tbody-class="small"
              :current-page="current_page" 
              :items="items"
@@ -12,7 +12,26 @@
              :sort-by.sync="sort_by"
              :sort-desc.sync="sort_desc"
              sort-icon-left
-            ></b-table>
+            >
+                <template v-slot:head(impact_probability)="data">
+                    Impact Probability (Cum.)
+                </template>
+                <template v-slot:head(velocity)="data">
+                    Velocity (km/s)
+                </template>
+                <template v-slot:head(abs_magnitude)="data">
+                    Absolute Magnitude
+                </template>
+                <template v-slot:head(est_diameter)="data">
+                    Estimated Diameter (km)
+                </template>
+                <template v-slot:head(palermo_scale_cum)="data">
+                    Palermo Scale (Cum.)
+                </template>
+                <template v-slot:head(palermo_scale_max)="data">
+                    Palermo Scale Max
+                </template>
+            </b-table>
             
             <b-pagination class="justify-content-center" v-model="current_page"
                 :total-rows="row_count"
@@ -71,10 +90,10 @@
 
         methods: {
             fillData(items) {
-                var fireballs = Array();
+                var scoutedObjs = Array();
                 // var brightness_date;
                 items.data.forEach(function (item) {
-                    fireballs.push({
+                    scoutedObjs.push({
                         'object_id': item.object_id,
                         'object_designation': item.object_designation,
                         'year_range': item.year_range,
@@ -87,7 +106,7 @@
                         'palermo_scale_max': item.palermo_scale_max
                     })
                 });
-                this.items = Object.assign([], this.items, fireballs);
+                this.items = Object.assign([], this.items, scoutedObjs);
                 this.row_count = items.data.length;
             }
         }

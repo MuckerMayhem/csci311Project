@@ -13,7 +13,32 @@
              :sort-desc.sync="sort_desc"
              sort-icon-left
              @row-clicked="showModal"
-            ></b-table>
+            >
+                <template v-slot:head(latitude)="data">
+                    Latitude (deg.)
+                </template>
+                <template v-slot:head(longitude)="data">
+                    Longitude (deg.)
+                </template>
+                <template v-slot:head(altitude)="data">
+                    Altitude (km)
+                </template>
+                <template v-slot:head(velocity_x)="data">
+                    Velocity X (km/s)
+                </template>
+                <template v-slot:head(velocity_y)="data">
+                    Velocity Y (km/s)
+                </template>
+                <template v-slot:head(velocity_z)="data">
+                    Velocity Z (km/s)
+                </template>
+                <template v-slot:head(radiated_energy)="data">
+                    Total Radiated Energy (J)
+                </template>
+                <template v-slot:head(impact_energy)="data">
+                    Total Impact Energy (kt)
+                </template>
+            </b-table>
             
             <b-pagination class="justify-content-center" v-model="current_page"
                 :total-rows="row_count"
@@ -23,7 +48,8 @@
                 next-text="Next"
                 last-text="Last"
                 aria-controls="data-table"
-            ></b-pagination>
+            >
+            </b-pagination>
 
             <!-- Modal for displaying individual Fireball information -->
             <div class="container-fluid">
